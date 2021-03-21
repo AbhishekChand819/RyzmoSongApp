@@ -36,7 +36,7 @@ function Playlist() {
                     </ImageBackground> 
                 </View>
                 <Song
-                    title="Hawayein (From 'Jab Har...'"
+                    title="Hawayein (From 'Jab Har.....'"
                     image={require('../../assets/album5.jpg')}
                     artists="Arjit Singh">
                 </Song>
