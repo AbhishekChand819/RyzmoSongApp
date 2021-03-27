@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,Image,StyleSheet,Text,TextInput,TouchableHighlight } from 'react-native';
-import logo from './Logo.png';
-import contact from './contact.png';
+import logo from '../../assets/logo.png';
+import contact from '../../assets/contact.png';
 import {Link } from "react-router-native";
 
 const styles = StyleSheet.create({
