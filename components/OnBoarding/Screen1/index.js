@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text,StatusBar} from 'react-native';
 import {styles} from './styles';
 import GenreLabel from '../../shared/GenreLabel';
 import Button from '../../shared/Button';
@@ -7,6 +7,7 @@ import Button from '../../shared/Button';
 function Screen1() {
   return (
     <React.Fragment>
+      <StatusBar backgroundColor="#1B0536" />
       <View style={styles.wrapper}>
         <Text style={styles.heading}>What music do you like?</Text>
         <View style={styles.container}>

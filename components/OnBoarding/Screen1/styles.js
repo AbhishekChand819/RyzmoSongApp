@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     lineHeight: 25,
     color: '#FFFFFF',
     marginBottom: 15,
-    marginTop: 50,
+    marginTop: 30,
   },
   container: {
     display: 'flex',
@@ -25,6 +25,6 @@ export const styles = StyleSheet.create({
     width: '65%',
     display: 'flex',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 20,
   },
 });
