@@ -1,25 +1,52 @@
 import React from 'react';
-import {View, ImageBackground, Text} from 'react-native';
+import {View, ImageBackground, Text,Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {styles} from './styles';
 
-function TrackLabel({text, image, gradient}) {
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        style={styles.imgBackground}
-        // source={require('../../../assets/album1.jpg')}
-        source={image}
-        imageStyle={{borderRadius: 10}}>
-        <LinearGradient
-          //   colors={['rgba(238, 0, 143, 0)', '#D708F9']}
-          colors={gradient}
-          style={styles.linearGradient}></LinearGradient>
-      </ImageBackground>
+function TrackLabel({text, image, gradient,type}) {
+  if(type=="home"){
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          style={styles.imgBackground}
+          source={image}
+          imageStyle={{borderRadius: 10}}>
+          <LinearGradient
+            colors={gradient}
+            style={styles.linearGradient}></LinearGradient>
+        </ImageBackground>
+        <Text style={styles.titleText}>{text}</Text>
+        <Text style={styles.labelText}>50 Songs</Text>
+      </View>
+    );
+  } else if(type=="library") {
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          style={styles.imgBackgroundMedium}
+          source={image}
+          imageStyle={{borderRadius: 10}}>
+          <LinearGradient
+            colors={gradient}
+            style={styles.linearGradientMedium}></LinearGradient>
+        </ImageBackground>
+        <Text style={styles.titleText}>{text}</Text>
+      </View>
+    );
+  } else if(type=="create") {
+    return (
+    <View>
+      <View style={styles.createContainer}>
+        <Image
+          style={styles.imgBackgroundCreate}
+          source={image}>
+        </Image>
+      </View>
       <Text style={styles.titleText}>{text}</Text>
-      <Text style={styles.labelText}>50 Songs</Text>
     </View>
-  );
+    );
+  }
+
 }
 
 export default TrackLabel;

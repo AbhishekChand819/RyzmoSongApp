@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     flexDirection:'column',
     marginLeft:15,
     marginTop:4,
-    marginBottom:20
+    marginBottom:20,
   },
   imgSong: {
     width: 50,
@@ -29,6 +29,12 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
     color: '#C4C4C4',
     alignItems: 'center',
+  },
+  imgAdd: {
+    width: 23,
+    height: 23,
+    marginTop: 14,
+    marginLeft: 45,
   },
   imgHeart: {
     width: 23,

@@ -11,6 +11,7 @@ function Navbar() {
       key: 'home',
       icon: require('../../assets/Vector.png'),
       label: 'Home',
+      barColor: '#000000',
     },
     {
       key: 'search',

@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     width: 23,
     height: 23,
-    left: 50,
+    left: 40,
     top: 74,
     zIndex:1
   },
@@ -34,13 +34,44 @@ export const styles = StyleSheet.create({
     paddingLeft:55,
     color:"#E9D5E1"
   },
-  container: {
+  LibraryContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent:"space-evenly",
     marginTop:10,
-    marginLeft:10,
-    marginRight:10
+    marginLeft: 20,
   },
+  pillsContainer:{
+    display:"flex",
+    flexDirection:"row",
+    flexWrap: 'wrap',
+    marginTop:20,
+    marginLeft: 20,
+  },
+  pillBoxActive:{
+    width:90,
+    height:35,
+    marginRight:15,
+    backgroundColor:"#EE008F",
+    borderRadius:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pillBoxInActive:{
+    width:80,
+    height:35,
+    marginRight:15,
+    borderWidth:2,
+    borderColor:"#FFFFFF",
+    borderRadius:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pillText:{
+    fontFamily: "Montserrat-SemiBold",
+    fontSize: 13,
+    color: "#FFFFFF",
+    marginBottom:3
+  }
 });
