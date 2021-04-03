@@ -11,7 +11,6 @@ function Navbar() {
       key: 'home',
       icon: require('../../assets/Vector.png'),
       label: 'Home',
-      barColor: '#000000',
     },
     {
       key: 'search',
@@ -38,7 +37,7 @@ function Navbar() {
 
   const renderTab = ({tab, isActive}) => (
     <FullTab
-      style={{alignSelf: 'center', height: 60, marginTop: 5}}
+      style={{alignSelf: 'center', height: 55, marginTop: 5}}
       isActive={isActive}
       key={tab.key}
       label={tab.label}
@@ -47,7 +46,7 @@ function Navbar() {
   );
   return (
     <BottomNavigation
-      style={{height: 60, paddingBottom: 5}}
+      style={{height: 55, paddingBottom: 5}}
       activeTab={activeTab}
       onTabPress={(newTab) => setActiveTab(newTab.key)}
       renderTab={renderTab}
