@@ -5,7 +5,7 @@ import AppNavigator from '../Navbar';
 import search from '../../assets/search1.png';
 import GenreLabel from '../shared/SearchGenreLabel';
 
-function Search() {
+function Search({navigation}) {
   return (
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
@@ -54,7 +54,7 @@ function Search() {
             image={require('../../assets/pop.png')}></GenreLabel>
         </View>
       </ScrollView>
-      <AppNavigator></AppNavigator>
+      <AppNavigator navigation={navigation}></AppNavigator>
     </React.Fragment>
   );
 }

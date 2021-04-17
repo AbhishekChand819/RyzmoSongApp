@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, Text,ImageBackground} from 'react-native';
+import {View, Text,ImageBackground, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
+import { useNavigation } from '@react-navigation/native';
 
-function Song({title, image, artists, icon}){
+function Song({title, image, artists, icon, url}){
+    const navigation = useNavigation();
     if(icon=="plus"){
         return(
             <React.Fragment>
@@ -24,9 +26,9 @@ function Song({title, image, artists, icon}){
         );
     } else {
         return(
-            <React.Fragment>
+            <TouchableOpacity onPress={()=> navigation.push('Music Player',{title,artists,image,url})}>
                 <View style={styles.subSongContainer}>
-                    <ImageBackground 
+                    <ImageBackground
                         style={styles.imgSong}
                         source={image}>
                     </ImageBackground> 
@@ -43,7 +45,7 @@ function Song({title, image, artists, icon}){
                         source={require('../../../assets/option.png')}>
                     </ImageBackground> 
                 </View>
-            </React.Fragment>
+            </TouchableOpacity>
         );
     }
 

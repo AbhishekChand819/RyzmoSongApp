@@ -4,7 +4,7 @@ import {styles} from './styles';
 import AppNavigator from '../Navbar';
 import TrackLabel from '../shared/TrackLabel';
 
-function Home() {
+function Home({navigation}) {
   return (
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
@@ -23,17 +23,20 @@ function Home() {
               text="Dua Lipa"
               image={require('../../assets/dualipa.png')}
               gradient={['rgba(238, 0, 143, 0)', '#D708F9']}
-              type="home"></TrackLabel>
+              type="home"
+              navigation={navigation}></TrackLabel>
             <TrackLabel
               text="JuiceWRLD"
               image={require('../../assets/juicewrld.png')}
               gradient={['rgba(255, 255, 255, 0)', '#00FFA3']}
-              type="home"></TrackLabel>
+              type="home"
+              navigation={navigation}></TrackLabel>
             <TrackLabel
               text="Eminem"
               image={require('../../assets/eminem.png')}
               gradient={['rgba(238, 255, 255, 0)', '#0137C7']}
-              type="home"></TrackLabel>
+              type="home"
+              navigation={navigation}></TrackLabel>
           </ScrollView>
         </View>
         <View style={{paddingTop: 20}}>
@@ -47,7 +50,8 @@ function Home() {
               text="Pop"
               image={require('../../assets/pop.png')}
               gradient={['rgba(238, 0, 143, 0)', '#D708F9']}
-              type="home"></TrackLabel>
+              type="home"
+              ></TrackLabel>
             <TrackLabel
               text="Electro"
               image={require('../../assets/electro.png')}
@@ -85,7 +89,7 @@ function Home() {
           </ScrollView>
         </View>
       </ScrollView>
-      <AppNavigator></AppNavigator>
+      <AppNavigator navigation={navigation}></AppNavigator>
     </React.Fragment>
   );
 }

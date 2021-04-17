@@ -1,10 +1,33 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import {View, StatusBar, Text, ScrollView,ImageBackground} from 'react-native';
 import {styles} from './styles';
-import LinearGradient from 'react-native-linear-gradient';
-import Song from "../shared/Song"
+import TrackPlayer, {
+    useTrackPlayerProgress,
+    usePlaybackState,
+    useTrackPlayerEvents
+  } from "react-native-track-player";
 
 function MusicPlayer() {
+    const route = useRoute();
+    const start = async () => {
+        // Set up the player
+        await TrackPlayer.setupPlayer({});
+
+        // Add a track to the queue
+        await TrackPlayer.add({
+            id: 'trackId',
+            url:'https://cdns-preview-c.dzcdn.net/stream/c-cae4a814e972d68fe00695271871ef40-3.mp3',
+            title: 'Track Title',
+            artist: 'Track Artist',
+            // artwork: require('track.png')
+        });
+    
+        // Start playing it
+        await TrackPlayer.play();
+
+    };
+    start();
   return (
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
@@ -17,8 +40,8 @@ function MusicPlayer() {
                 source={require('../../assets/song.jpg')}
                 imageStyle={{borderRadius: 200}}>
             </ImageBackground>
-            <Text style={styles.SongTitle}>Hawayein</Text>
-            <Text style={styles.SongArtist}>Arijit Singh</Text>
+            <Text style={styles.SongTitle}>{route.params.title}</Text>
+            <Text style={styles.SongArtist}>{route.params.artists}</Text>
             <View style={styles.SongBar}>
                 <View style={styles.SongBarFill}></View>
             </View>

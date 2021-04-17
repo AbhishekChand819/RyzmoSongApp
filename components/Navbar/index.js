@@ -5,32 +5,32 @@ import BottomNavigation, {
 import {Image, StatusBar} from 'react-native';
 import {styles} from './styles';
 
-function Navbar() {
+function Navbar({navigation}) {
   const tabs = [
     {
-      key: 'home',
+      key: 'Home',
       icon: require('../../assets/Vector.png'),
       label: 'Home',
       barColor: '#000000',
     },
     {
-      key: 'search',
+      key: 'Search',
       icon: require('../../assets/Search.png'),
       label: 'Search',
     },
     {
-      key: 'library',
+      key: 'Library',
       icon: require('../../assets/Library.png'),
       label: 'Saved',
     },
     {
-      key: 'settings',
+      key: 'Settings',
       icon: require('../../assets/Gear.png'),
       label: 'Settings',
     },
   ];
 
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState('Home');
 
   const renderIcon = (icon) => ({isActive}) => (
     <Image style={styles.banner} source={icon} />
@@ -49,7 +49,7 @@ function Navbar() {
     <BottomNavigation
       style={{height: 55, paddingBottom: 5}}
       activeTab={activeTab}
-      onTabPress={(newTab) => setActiveTab(newTab.key)}
+      onTabPress={(newTab) => {navigation.push(newTab.key); setActiveTab(newTab.key)}}
       renderTab={renderTab}
       tabs={tabs}
     />
