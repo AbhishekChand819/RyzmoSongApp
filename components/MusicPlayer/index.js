@@ -1,93 +1,101 @@
 import { useRoute } from '@react-navigation/native';
+import { useEffect } from 'react';
 import React from 'react';
-import {View, StatusBar, Text, ScrollView,ImageBackground} from 'react-native';
-import {styles} from './styles';
-import TrackPlayer, {
-    useTrackPlayerProgress,
-    usePlaybackState,
-    useTrackPlayerEvents
-  } from "react-native-track-player";
+import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
+import { styles } from './styles';
+
+import SoundPlayer from "react-native-sound-player"
+import { useState } from 'react';
 
 function MusicPlayer() {
+    const [isPlaying, setisPlaying] = useState(true);
+    const [currentTime, setcurrentTime] = useState(0);
+    async function getInfo(){
+        let info = await SoundPlayer.getInfo()
+        info = Math.floor(info.currentTime)
+        setcurrentTime(info);
+    }
+    useEffect(async() => {
+        SoundPlayer.playUrl('https://cdns-preview-c.dzcdn.net/stream/c-cae4a814e972d68fe00695271871ef40-3.mp3');
+        SoundPlayer.setVolume(100);
+        let myInterval = setInterval(()=>{
+            getInfo();
+        },1000)
+        return () => clearInterval(myInterval)
+    }, [])
+
     const route = useRoute();
-    const start = async () => {
-        // Set up the player
-        await TrackPlayer.setupPlayer({});
-
-        // Add a track to the queue
-        await TrackPlayer.add({
-            id: 'trackId',
-            url:'https://cdns-preview-c.dzcdn.net/stream/c-cae4a814e972d68fe00695271871ef40-3.mp3',
-            title: 'Track Title',
-            artist: 'Track Artist',
-            // artwork: require('track.png')
-        });
-    
-        // Start playing it
-        await TrackPlayer.play();
-
-    };
-    start();
-  return (
-    <React.Fragment>
-      <StatusBar backgroundColor="#1B0536" />
-      <ScrollView
-        style={styles.wrapper}
-        overScrollMode="never"
-        showsHorizontalScrollIndicator={false}>
-            <ImageBackground
-                style={styles.imgBackground}
-                source={require('../../assets/song.jpg')}
-                imageStyle={{borderRadius: 200}}>
-            </ImageBackground>
-            <Text style={styles.SongTitle}>{route.params.title}</Text>
-            <Text style={styles.SongArtist}>{route.params.artists}</Text>
-            <View style={styles.SongBar}>
-                <View style={styles.SongBarFill}></View>
-            </View>
-            <View style={styles.SongTimeLable}>
-                <Text style={styles.SongStartTime}>1:05</Text>
-                <Text style={styles.SongEndTime}>2:36</Text>
-            </View>
-            <View style={styles.SongOptionPanel}>
+    return (
+        <React.Fragment>
+            <StatusBar backgroundColor="#1B0536" />
+            <ScrollView
+                style={styles.wrapper}
+                overScrollMode="never"
+                showsHorizontalScrollIndicator={false}>
                 <ImageBackground
-                    style={styles.SongOptionShuffle}
-                    source={require('../../assets/shuffle.png')}>
+                    style={styles.imgBackground}
+                    source={require('../../assets/song.jpg')}
+                    imageStyle={{ borderRadius: 200 }}>
                 </ImageBackground>
-                <ImageBackground
-                    style={styles.SongOptionBackward}
-                    source={require('../../assets/backward.png')}>
-                </ImageBackground>
-                <ImageBackground
-                    style={styles.SongOptionPause}
-                    source={require('../../assets/pause.png')}>
-                </ImageBackground>
-                <ImageBackground
-                    style={styles.SongOptionForward}
-                    source={require('../../assets/forward.png')}>
-                </ImageBackground>
-                <ImageBackground
-                    style={styles.SongOptionRepeat}
-                    source={require('../../assets/repeat.png')}>
-                </ImageBackground>
-            </View>
-            <View style={styles.SongMenuPanel}>
-                <ImageBackground
-                    style={styles.SongMenuQueue}
-                    source={require('../../assets/queue.png')}>
-                </ImageBackground>
-                <ImageBackground
-                    style={styles.SongMenuPlaylist}
-                    source={require('../../assets/playlist.png')}>
-                </ImageBackground>
-                <ImageBackground
-                    style={styles.SongMenuHeart}
-                    source={require('../../assets/heart.png')}>
-                </ImageBackground>
-            </View>
+                <Text style={styles.SongTitle}>{route.params.title}</Text>
+                <Text style={styles.SongArtist}>{route.params.artists}</Text>
+                <View style={styles.SongBar}>
+                    <View style={[styles.SongBarFill, {width:(currentTime/30)*100 + "%"}]}></View>
+                </View>
+                <View style={styles.SongTimeLable}>
+                    <Text style={styles.SongStartTime}>{currentTime<10? "0:0"+ currentTime : "0:"+currentTime}</Text>
+                    <Text style={styles.SongEndTime}>0:30</Text>
+                </View>
+                <View style={styles.SongOptionPanel}>
+                    <ImageBackground
+                        style={styles.SongOptionShuffle}
+                        source={require('../../assets/shuffle.png')}>
+                    </ImageBackground>
+                    <ImageBackground
+                        style={styles.SongOptionBackward}
+                        source={require('../../assets/backward.png')}>
+                    </ImageBackground>
+                    {isPlaying ?
+                        <TouchableOpacity onPress={() => { setisPlaying(false); SoundPlayer.pause() }}>
+                            <ImageBackground
+                                style={styles.SongOptionPause}
+                                source={require('../../assets/pause.png')}>
+                            </ImageBackground>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={() => { setisPlaying(true); SoundPlayer.play() }}>
+                            <ImageBackground
+                                style={styles.SongOptionPause}
+                                source={require('../../assets/playbtn.png')}>
+                            </ImageBackground>
+                        </TouchableOpacity>
+                    }
+                    <ImageBackground
+                        style={styles.SongOptionForward}
+                        source={require('../../assets/forward.png')}>
+                    </ImageBackground>
+                    <ImageBackground
+                        style={styles.SongOptionRepeat}
+                        source={require('../../assets/repeat.png')}>
+                    </ImageBackground>
+                </View>
+                <View style={styles.SongMenuPanel}>
+                    <ImageBackground
+                        style={styles.SongMenuQueue}
+                        source={require('../../assets/queue.png')}>
+                    </ImageBackground>
+                    <ImageBackground
+                        style={styles.SongMenuPlaylist}
+                        source={require('../../assets/playlist.png')}>
+                    </ImageBackground>
+                    <ImageBackground
+                        style={styles.SongMenuHeart}
+                        source={require('../../assets/heart.png')}>
+                    </ImageBackground>
+                </View>
             </ScrollView>
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 }
 
 export default MusicPlayer;

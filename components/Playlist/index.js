@@ -12,7 +12,7 @@ function Playlist() {
     const navigation = useNavigation();
     const [songs, setSongs] = useState([]);
     useEffect(async () => {
-        let response = await fetch('https://b0ea0abf15b6.ngrok.io/top/songs');
+        let response = await fetch('https://706866192dd6.ngrok.io/top/songs');
         response = await response.json();
         setSongs(response);
         // console.log('### response', response);

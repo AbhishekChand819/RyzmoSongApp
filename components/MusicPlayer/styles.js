@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     marginTop:40,
   },
   SongBarFill:{
-    width: "40%",
     height: 4,
     backgroundColor:"#EE008F",
   },
