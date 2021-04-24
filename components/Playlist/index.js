@@ -7,12 +7,13 @@ import Song from "../shared/Song"
 import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { url } from "../../constants"
 
 function Playlist() {
     const navigation = useNavigation();
     const [songs, setSongs] = useState([]);
     useEffect(async () => {
-        let response = await fetch('https://706866192dd6.ngrok.io/top/songs');
+        let response = await fetch(`${url}/top/songs`);
         response = await response.json();
         setSongs(response);
         // console.log('### response', response);
@@ -46,15 +47,15 @@ function Playlist() {
                             source={require('../../assets/playbtn.png')}>
                         </ImageBackground>
                     </View>
-                    {songs.length < 1 ? <Text>Loading...</Text> : songs.map(song =>
-                        <Song
-                            key={song.id}
+                    {songs.length < 1 ? <Text>Loading...</Text> : songs.map(song => {
+                        return <Song
+                            key={song.track_id}
                             title={song.track_name}
-                            image={require('../../assets/album5.jpg')}
+                            image={song.artist_image.length>1 ? {uri : song.artist_image} : require('../../assets/album5.jpg')}
                             artists={song.track_artist}
-                            url="https://cdns-preview-c.dzcdn.net/stream/c-cae4a814e972d68fe00695271871ef40-3.mp3"
+                            url={song.track_preview}
                         />
-                    )}
+                    })}
                 </View>
             </ScrollView>
             <AppNavigator></AppNavigator>

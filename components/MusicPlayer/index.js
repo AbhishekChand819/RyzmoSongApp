@@ -10,13 +10,14 @@ import { useState } from 'react';
 function MusicPlayer() {
     const [isPlaying, setisPlaying] = useState(true);
     const [currentTime, setcurrentTime] = useState(0);
+    const route = useRoute();
     async function getInfo(){
         let info = await SoundPlayer.getInfo()
         info = Math.floor(info.currentTime)
         setcurrentTime(info);
     }
     useEffect(async() => {
-        SoundPlayer.playUrl('https://cdns-preview-c.dzcdn.net/stream/c-cae4a814e972d68fe00695271871ef40-3.mp3');
+        SoundPlayer.playUrl(route.params.url);
         SoundPlayer.setVolume(100);
         let myInterval = setInterval(()=>{
             getInfo();
@@ -24,7 +25,6 @@ function MusicPlayer() {
         return () => clearInterval(myInterval)
     }, [])
 
-    const route = useRoute();
     return (
         <React.Fragment>
             <StatusBar backgroundColor="#1B0536" />
@@ -34,7 +34,7 @@ function MusicPlayer() {
                 showsHorizontalScrollIndicator={false}>
                 <ImageBackground
                     style={styles.imgBackground}
-                    source={require('../../assets/song.jpg')}
+                    source={route.params.image}
                     imageStyle={{ borderRadius: 200 }}>
                 </ImageBackground>
                 <Text style={styles.SongTitle}>{route.params.title}</Text>
