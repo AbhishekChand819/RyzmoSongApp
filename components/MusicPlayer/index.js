@@ -5,25 +5,33 @@ import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity } 
 import { styles } from './styles';
 
 import SoundPlayer from "react-native-sound-player"
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 
 function MusicPlayer() {
     const [isPlaying, setisPlaying] = useState(true);
     const [currentTime, setcurrentTime] = useState(0);
     const route = useRoute();
+    const isMounted = useRef(false);
     async function getInfo(){
         let info = await SoundPlayer.getInfo()
         info = Math.floor(info.currentTime)
         setcurrentTime(info);
     }
     useEffect(async() => {
+        isMounted.current = true
+        console.log(route.params.url)
         SoundPlayer.playUrl(route.params.url);
         SoundPlayer.setVolume(100);
-        let myInterval = setInterval(()=>{
-            getInfo();
-        },1000)
-        return () => clearInterval(myInterval)
-    }, [])
+        // let myInterval = setInterval(()=>{
+        //     if(isMounted.current) getInfo();
+        // },1000)
+        setTimeout(()=>{
+            SoundPlayer.playUrl("https://cdns-preview-e.dzcdn.net/stream/c-ea1ca1a7af27f59d1f423b2712fdbfca-3.mp3");
+        },5000)
+        return () => {isMounted.current =false; 
+            // clearInterval(myInterval)
+        }
+    }, [route])
 
     return (
         <React.Fragment>

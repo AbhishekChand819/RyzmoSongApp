@@ -3,6 +3,7 @@ import React,{useState} from 'react';
 import {NativeRouter, Route} from 'react-router-native';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
+import SplashScreen from './components/SplashScreen';
 import Home from './components/Home';
 import Search from './components/Search';
 import Playlist from './components/Playlist'
@@ -18,16 +19,13 @@ export default function App() {
   changeNavigationBarColor('#1B0536');
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Playlist" component={Playlist} />
         <Stack.Screen name="Music Player" component={MusicPlayer} />
       </Stack.Navigator>
     </NavigationContainer>
-    // <NativeRouter>
-    //   <Route path={currentRoute} component={Home} />
-    //   {/* <Route path="/" component={Screen2} /> */}
-    // </NativeRouter>
   );
 }

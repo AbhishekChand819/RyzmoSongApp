@@ -8,15 +8,18 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { url } from "../../constants"
+import { useRoute } from '@react-navigation/native';
+
 
 function Playlist() {
     const navigation = useNavigation();
     const [songs, setSongs] = useState([]);
+    const route = useRoute();
     useEffect(async () => {
-        let response = await fetch(`${url}/top/songs`);
+        console.log(route)
+        let response = await fetch(`${url}${route.params.endpoint}`);
         response = await response.json();
         setSongs(response);
-        // console.log('### response', response);
     }, []);
     return (
         <React.Fragment>
@@ -27,7 +30,7 @@ function Playlist() {
                 showsHorizontalScrollIndicator={false}>
                 <ImageBackground
                     style={styles.imgBackground}
-                    source={require('../../assets/album3.jpg')}
+                    source={route.params.img}
                     imageStyle={{ borderBottomLeftRadius: 40, borderBottomRightRadius: 40 }}>
                     <LinearGradient
                         colors={['rgba(255, 255, 255, 0)', '#00FFA3']}
@@ -36,7 +39,7 @@ function Playlist() {
                 <View style={styles.container}>
                     <View style={styles.playlistHeadingContainer}>
                         <View style={styles.playlistDetail}>
-                            <Text style={styles.labelText}>EDM 2020's</Text>
+                            <Text style={styles.labelText}>{route.params.title}</Text>
                             <View style={styles.subTextContainer}>
                                 <Text style={styles.labelSubText}>42 Songs  &bull;  </Text>
                                 <Text style={styles.labelSubText}>102 Hours</Text>

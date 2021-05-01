@@ -6,7 +6,6 @@ import {styles} from './styles';
 function TrackLabel({text, image, gradient,type,navigation}) {
   if(type=="home"){
     return (
-      <TouchableOpacity onPress={()=> navigation.push('Playlist')}>
       <View style={styles.container}>
         <ImageBackground
           style={styles.imgBackground}
@@ -19,7 +18,6 @@ function TrackLabel({text, image, gradient,type,navigation}) {
         <Text style={styles.titleText}>{text}</Text>
         <Text style={styles.labelText}>50 Songs</Text>
       </View>
-      </TouchableOpacity>
     );
   } else if(type=="library") {
     return (
