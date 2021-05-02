@@ -16,7 +16,6 @@ function Playlist() {
     const [songs, setSongs] = useState([]);
     const route = useRoute();
     useEffect(async () => {
-        console.log(route)
         let response = await fetch(`${url}${route.params.endpoint}`);
         response = await response.json();
         setSongs(response);

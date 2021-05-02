@@ -3,33 +3,68 @@ import { useEffect } from 'react';
 import React from 'react';
 import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
+import { url } from "../../constants"
 
-import SoundPlayer from "react-native-sound-player"
+import TrackPlayer from 'react-native-track-player';
+
 import { useState,useRef } from 'react';
 
 function MusicPlayer() {
     const [isPlaying, setisPlaying] = useState(true);
     const [currentTime, setcurrentTime] = useState(0);
+    const [songTitle,setSongTitle] = useState('')
+    const [songArtist,setSongArtist] = useState('')
+    const [songImg,setSongImg] = useState('')
     const route = useRoute();
     const isMounted = useRef(false);
     async function getInfo(){
-        let info = await SoundPlayer.getInfo()
-        info = Math.floor(info.currentTime)
+        let info = await TrackPlayer.getPosition()
+        info = Math.floor(info)
         setcurrentTime(info);
     }
+    useEffect(async () => {
+        let response = await fetch(`${url}/recommend/song/${route.params.title}`);
+        response = await response.json();
+        response.map(async (song) => {
+            if(song.track_preview.length>1)
+                await TrackPlayer.add({
+                    id: song.track_name,
+                    url: song.track_preview,
+                    title: song.track_name,
+                    artist: song.track_artist,
+                    artwork: {"uri": song.artist_image}
+                });
+        })
+    }, []);
     useEffect(async() => {
-        isMounted.current = true
-        console.log(route.params.url)
-        SoundPlayer.playUrl(route.params.url);
-        SoundPlayer.setVolume(100);
-        // let myInterval = setInterval(()=>{
-        //     if(isMounted.current) getInfo();
-        // },1000)
-        setTimeout(()=>{
-            SoundPlayer.playUrl("https://cdns-preview-e.dzcdn.net/stream/c-ea1ca1a7af27f59d1f423b2712fdbfca-3.mp3");
-        },5000)
+        isMounted.current = true;
+        const listener = TrackPlayer.addEventListener(
+            'playback-track-changed',
+            async (data) => {
+                const track = await TrackPlayer.getTrack(data.nextTrack);
+                setSongTitle(track.title);
+                setSongArtist(track.artist);
+                setSongImg(track.artwork);
+            }
+        );
+        TrackPlayer.updateOptions({
+            stopWithApp: true,
+          });
+        TrackPlayer.reset();
+        await TrackPlayer.add({
+                id: route.params.title,
+                url: route.params.url,
+                title: route.params.title,
+                artist: route.params.artists,
+                artwork: route.params.image
+            });
+        TrackPlayer.play();
+        let myInterval = setInterval(()=>{
+            if(isMounted.current) getInfo();
+        },1000)
         return () => {isMounted.current =false; 
-            // clearInterval(myInterval)
+            clearInterval(myInterval);
+            listener.remove()
         }
     }, [route])
 
@@ -42,11 +77,11 @@ function MusicPlayer() {
                 showsHorizontalScrollIndicator={false}>
                 <ImageBackground
                     style={styles.imgBackground}
-                    source={route.params.image}
-                    imageStyle={{ borderRadius: 200 }}>
-                </ImageBackground>
-                <Text style={styles.SongTitle}>{route.params.title}</Text>
-                <Text style={styles.SongArtist}>{route.params.artists}</Text>
+                    source={songImg}
+                    key={songTitle}
+                    imageStyle={{ borderRadius: 200 }}/>
+                <Text style={styles.SongTitle}>{songTitle}</Text>
+                <Text style={styles.SongArtist}>{songArtist}</Text>
                 <View style={styles.SongBar}>
                     <View style={[styles.SongBarFill, {width:(currentTime/30)*100 + "%"}]}></View>
                 </View>
@@ -64,14 +99,14 @@ function MusicPlayer() {
                         source={require('../../assets/backward.png')}>
                     </ImageBackground>
                     {isPlaying ?
-                        <TouchableOpacity onPress={() => { setisPlaying(false); SoundPlayer.pause() }}>
+                        <TouchableOpacity onPress={() => { setisPlaying(false); TrackPlayer.pause() }}>
                             <ImageBackground
                                 style={styles.SongOptionPause}
                                 source={require('../../assets/pause.png')}>
                             </ImageBackground>
                         </TouchableOpacity>
                         :
-                        <TouchableOpacity onPress={() => { setisPlaying(true); SoundPlayer.play() }}>
+                        <TouchableOpacity onPress={() => { setisPlaying(true); TrackPlayer.play() }}>
                             <ImageBackground
                                 style={styles.SongOptionPause}
                                 source={require('../../assets/playbtn.png')}>

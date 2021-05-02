@@ -43,7 +43,7 @@ function Home() {
         style={styles.wrapper}
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}>
-        <View style={{paddingTop: 10}}>
+        <View>
           <Text style={styles.labelText}>Artists you should listen</Text>
           <ScrollView
             horizontal={true}
