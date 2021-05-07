@@ -4,49 +4,49 @@ export const styles = StyleSheet.create({
   subSongContainer:{
     display:"flex",
     flexDirection:'row',
+    marginBottom:15,
+    // backgroundColor:"black"
   },
   subLabelContainer:{
     display:"flex",
     flexDirection:'column',
     marginLeft:15,
-    marginTop:4,
-    marginBottom:20,
+    marginTop:2,
   },
   imgSong: {
     width: 50,
-    height: 51,
+    height: 45,
   },
   labelSongTitle:{
+    display:"flex",
+    width:200,
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 14,
-    lineHeight: 20,
     color: '#FFFFFF',
-    alignItems: 'center',
   },
   labelSongArtist:{
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 13,
-    lineHeight: 20,
     color: '#C4C4C4',
-    alignItems: 'center',
+  },
+  songOption:{
+    display:"flex",
+    flexDirection:"row",
+    marginLeft:"auto",
+    marginTop:9
   },
   imgAdd: {
     width: 23,
     height: 23,
-    marginTop: 14,
-    marginLeft: 45,
   },
   imgHeart: {
     width: 23,
     height: 23,
-    marginTop: 14,
-    marginLeft: 55,
   },
   imgOption: {
     width: 5,
     height: 23,
-    marginTop: 14,
-    marginLeft: 23,
+    marginLeft:20,
   }
 });
 

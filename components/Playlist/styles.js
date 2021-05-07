@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     width: 59,
     height: 59,
     marginTop: 5,
-    marginLeft: 125,
+    marginLeft:"auto"
   }
 });
 

@@ -1,20 +1,24 @@
 import { useRoute } from '@react-navigation/native';
 import { useEffect } from 'react';
 import React from 'react';
-import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity,Modal } from 'react-native';
 import { styles } from './styles';
+import Song from "../shared/Song"
 import { url } from "../../constants"
 
 import TrackPlayer from 'react-native-track-player';
 
 import { useState,useRef } from 'react';
+import Queue from '../Queue/';
 
 function MusicPlayer() {
     const [isPlaying, setisPlaying] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
     const [currentTime, setcurrentTime] = useState(0);
     const [songTitle,setSongTitle] = useState('')
     const [songArtist,setSongArtist] = useState('')
     const [songImg,setSongImg] = useState('')
+    const [songQueue,setSongQueue] = useState([])
     const route = useRoute();
     const isMounted = useRef(false);
     async function getInfo(){
@@ -25,6 +29,7 @@ function MusicPlayer() {
     useEffect(async () => {
         let response = await fetch(`${url}/recommend/song/${route.params.title}`);
         response = await response.json();
+        setSongQueue(response)
         response.map(async (song) => {
             if(song.track_preview.length>1)
                 await TrackPlayer.add({
@@ -75,11 +80,38 @@ function MusicPlayer() {
                 style={styles.wrapper}
                 overScrollMode="never"
                 showsHorizontalScrollIndicator={false}>
-                <ImageBackground
+                <View style={styles.imageWrapper}>
+                    <ImageBackground
                     style={styles.imgBackground}
                     source={songImg}
                     key={songTitle}
                     imageStyle={{ borderRadius: 200 }}/>
+                </View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => null}>
+                    <View style={styles.queueWrapper}>
+                        <TouchableOpacity onPress={() => {setModalVisible(false)}}>
+                            <View style={styles.closeButton}>
+                                <Text style={styles.closeButtonText}>Close</Text>
+                                <ImageBackground
+                                    style={styles.QueueClose}
+                                    source={require('../../assets/close.png')}>
+                                </ImageBackground>
+                            </View>
+                        </TouchableOpacity>
+                        {songQueue.length < 1 ? <Text>Loading...</Text> : songQueue.map(songQ => {
+                            return <Song
+                                key={songQ.track_id}
+                                title={songQ.track_name}
+                                image={songQ.artist_image.length>1 ? {uri : songQ.artist_image} : require('../../assets/album5.jpg')}
+                                artists={songQ.track_artist}
+                                url={songQ.track_preview}/>
+                        })}
+                    </View>
+                </Modal>
                 <Text style={styles.SongTitle}>{songTitle}</Text>
                 <Text style={styles.SongArtist}>{songArtist}</Text>
                 <View style={styles.SongBar}>
@@ -123,14 +155,12 @@ function MusicPlayer() {
                     </ImageBackground>
                 </View>
                 <View style={styles.SongMenuPanel}>
-                    <ImageBackground
-                        style={styles.SongMenuQueue}
-                        source={require('../../assets/queue.png')}>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={() => {setModalVisible(true)}}>
                     <ImageBackground
                         style={styles.SongMenuPlaylist}
                         source={require('../../assets/playlist.png')}>
                     </ImageBackground>
+                    </TouchableOpacity>
                     <ImageBackground
                         style={styles.SongMenuHeart}
                         source={require('../../assets/heart.png')}>

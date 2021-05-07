@@ -5,25 +5,59 @@ export const styles = StyleSheet.create({
     display: 'flex',
     backgroundColor: '#1B0536',
   },
+  queueWrapper:{
+    display: 'flex',
+    backgroundColor: '#1B0536',
+    marginLeft:30,
+    marginRight:30,
+    height:"100%"
+  },
+  closeButton:{
+    display:"flex",
+    flexDirection:"row",
+    marginLeft:"auto",
+    justifyContent:"space-evenly",
+    width:"30%",
+    borderRadius:30,
+    marginBottom:30,
+    paddingVertical:2,
+    backgroundColor:"rgba(87, 19, 171, 0.6)"
+  },
+  closeButtonText:{
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 18,
+    color: '#FFFFFF',
+    marginBottom:4
+  },
+  QueueClose:{
+    width:12,
+    height:12,
+    marginTop:8
+  },
+  imageWrapper:{
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
+  },
   imgBackground: {
-    width: 300,
-    height: 300,
-    marginLeft:45,
-    marginTop:30,
+    width: 330,
+    height: 330,
   },
   SongTitle:{
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 32,
+    fontSize: 28,
     color: '#FFFFFF',
+    marginLeft:40,
+    marginRight:40,
     marginTop:20,
-    marginLeft:118,
+    textAlign:"center",
   },
   SongArtist:{
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 20,
     color: '#B17AF5',
     marginTop:5,
-    marginLeft:140,
+    textAlign:"center"
   },
   SongBar:{
     width: "80%",
@@ -91,29 +125,23 @@ export const styles = StyleSheet.create({
   SongMenuPanel:{
     display:"flex",
     flexDirection:"row",
-    justifyContent:"space-between",
-    marginTop:55,
-    marginLeft:30,
-    marginRight:30,
+    alignItems:"center",
+    alignSelf:"center",
+    justifyContent:"space-around",
+    width:"50%",
+    marginTop:40,
     borderRadius:30,
     backgroundColor:"rgba(87, 19, 171, 0.6)"
-  },
-  SongMenuQueue:{
-    width:20,
-    height:20,
-    marginVertical:22,
-    marginLeft:40,
   },
   SongMenuPlaylist:{
     width:26,
     height:26,
-    marginVertical:22
+    marginVertical:22,
   },
   SongMenuHeart:{
     width:25,
     height:25,
     marginVertical:22,
-    marginRight:40,
   },
 });
 

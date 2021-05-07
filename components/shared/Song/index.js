@@ -14,13 +14,15 @@ function Song({title, image, artists, icon, url}){
                         source={image}>
                     </ImageBackground> 
                     <View style={styles.subLabelContainer}>
-                        <Text style={styles.labelSongTitle}>{title}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.labelSongTitle}>{title}</Text>
                         <Text style={styles.labelSongArtist}>{artists}</Text>
                     </View>
-                    <ImageBackground 
-                        style={styles.imgAdd}
-                        source={require('../../../assets/add.png')}>
-                    </ImageBackground> 
+                    <View style={styles.songOption}>
+                        <ImageBackground 
+                            style={styles.imgAdd}
+                            source={require('../../../assets/add.png')}>
+                        </ImageBackground> 
+                    </View>
                 </View>
             </React.Fragment>
         );
@@ -33,17 +35,19 @@ function Song({title, image, artists, icon, url}){
                         source={image}>
                     </ImageBackground> 
                     <View style={styles.subLabelContainer}>
-                        <Text style={styles.labelSongTitle}>{title}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.labelSongTitle}>{title}</Text>
                         <Text style={styles.labelSongArtist}>{artists}</Text>
                     </View>
-                    <ImageBackground 
-                        style={styles.imgHeart}
-                        source={require('../../../assets/heart.png')}>
-                    </ImageBackground> 
-                    <ImageBackground 
-                        style={styles.imgOption}
-                        source={require('../../../assets/option.png')}>
-                    </ImageBackground> 
+                    <View style={styles.songOption}>
+                        <ImageBackground 
+                            style={styles.imgHeart}
+                            source={require('../../../assets/heart.png')}>
+                        </ImageBackground> 
+                        <ImageBackground 
+                            style={styles.imgOption}
+                            source={require('../../../assets/option.png')}>
+                        </ImageBackground> 
+                    </View>
                 </View>
             </TouchableOpacity>
         );
