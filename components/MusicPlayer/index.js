@@ -9,7 +9,6 @@ import { url } from "../../constants"
 import TrackPlayer from 'react-native-track-player';
 
 import { useState,useRef } from 'react';
-import Queue from '../Queue/';
 
 function MusicPlayer() {
     const [isPlaying, setisPlaying] = useState(true);
@@ -28,17 +27,19 @@ function MusicPlayer() {
     }
     useEffect(async () => {
         let response = await fetch(`${url}/recommend/song/${route.params.title}`);
+        let skipped = 0;
         response = await response.json();
         setSongQueue(response)
-        response.map(async (song) => {
-            if(song.track_preview.length>1)
+        response.map(async (song,index) => {
+            if(song.track_preview.length>1){
                 await TrackPlayer.add({
-                    id: song.track_name,
+                    id: index+2-skipped,
                     url: song.track_preview,
                     title: song.track_name,
                     artist: song.track_artist,
                     artwork: {"uri": song.artist_image}
                 });
+            } else skipped++;
         })
     }, []);
     useEffect(async() => {
@@ -47,9 +48,11 @@ function MusicPlayer() {
             'playback-track-changed',
             async (data) => {
                 const track = await TrackPlayer.getTrack(data.nextTrack);
-                setSongTitle(track.title);
-                setSongArtist(track.artist);
-                setSongImg(track.artwork);
+                if(track){
+                    setSongTitle(track.title);
+                    setSongArtist(track.artist);
+                    setSongImg(track.artwork);
+                }
             }
         );
         TrackPlayer.updateOptions({
@@ -57,7 +60,7 @@ function MusicPlayer() {
           });
         TrackPlayer.reset();
         await TrackPlayer.add({
-                id: route.params.title,
+                id: 1,
                 url: route.params.url,
                 title: route.params.title,
                 artist: route.params.artists,
@@ -108,7 +111,8 @@ function MusicPlayer() {
                                 title={songQ.track_name}
                                 image={songQ.artist_image.length>1 ? {uri : songQ.artist_image} : require('../../assets/album5.jpg')}
                                 artists={songQ.track_artist}
-                                url={songQ.track_preview}/>
+                                url={songQ.track_preview}
+                                route='queue'/>
                         })}
                     </View>
                 </Modal>
@@ -126,10 +130,14 @@ function MusicPlayer() {
                         style={styles.SongOptionShuffle}
                         source={require('../../assets/shuffle.png')}>
                     </ImageBackground>
-                    <ImageBackground
-                        style={styles.SongOptionBackward}
-                        source={require('../../assets/backward.png')}>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={async () => {
+                        const curr = await TrackPlayer.getCurrentTrack();
+                        if(curr>=1) TrackPlayer.skipToPrevious() }}>
+                        <ImageBackground
+                            style={styles.SongOptionBackward}
+                            source={require('../../assets/backward.png')}>
+                        </ImageBackground>
+                    </TouchableOpacity>
                     {isPlaying ?
                         <TouchableOpacity onPress={() => { setisPlaying(false); TrackPlayer.pause() }}>
                             <ImageBackground
@@ -145,10 +153,15 @@ function MusicPlayer() {
                             </ImageBackground>
                         </TouchableOpacity>
                     }
-                    <ImageBackground
-                        style={styles.SongOptionForward}
-                        source={require('../../assets/forward.png')}>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={async () => {
+                        const len = await TrackPlayer.getQueue();
+                        const curr = await TrackPlayer.getCurrentTrack();
+                        if(len <= curr) TrackPlayer.skipToNext()}}>
+                        <ImageBackground
+                            style={styles.SongOptionForward}
+                            source={require('../../assets/forward.png')}>
+                        </ImageBackground>
+                    </TouchableOpacity>
                     <ImageBackground
                         style={styles.SongOptionRepeat}
                         source={require('../../assets/repeat.png')}>

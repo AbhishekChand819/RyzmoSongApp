@@ -15,7 +15,7 @@ function TrackLabel({text, image, gradient,type,navigation}) {
             colors={gradient}
             style={styles.linearGradient}></LinearGradient>
         </ImageBackground>
-        <Text style={styles.titleText}>{text}</Text>
+        <Text style={styles.titleText} numberOfLines={1} ellipsizeMode='tail'>{text}</Text>
         <Text style={styles.labelText}>50 Songs</Text>
       </View>
     );

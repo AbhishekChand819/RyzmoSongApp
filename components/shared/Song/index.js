@@ -3,7 +3,7 @@ import {View, Text,ImageBackground, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import { useNavigation } from '@react-navigation/native';
 
-function Song({title, image, artists, icon, url}){
+function Song({title, image, artists, icon, url, route}){
     const navigation = useNavigation();
     if(icon=="plus"){
         return(
@@ -28,7 +28,11 @@ function Song({title, image, artists, icon, url}){
         );
     } else {
         return(
-            <TouchableOpacity onPress={()=> navigation.push('Music Player',{title,artists,image,url})}>
+            <TouchableOpacity onPress={()=> {
+                if(route=='queue'){
+                    navigation.pop(1);
+                    navigation.push('Music Player',{title,artists,image,url}) 
+                } else navigation.push('Music Player',{title,artists,image,url})}}>
                 <View style={styles.subSongContainer}>
                     <ImageBackground
                         style={styles.imgSong}

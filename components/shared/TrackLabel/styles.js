@@ -56,6 +56,7 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
     alignItems: 'center',
     marginBottom: 2,
+    width:160
   },
   labelText: {
     fontFamily: 'Montserrat-SemiBold',

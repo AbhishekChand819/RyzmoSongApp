@@ -12,6 +12,8 @@ function Home() {
   const navigation = useNavigation();
   const [topArtists, setTopArtists] = useState([]);
   const [topGenres, setTopGenres] = useState([]);
+  const [topPlaylists, setTopPlaylists] = useState([]);
+  
   const genreImages={
     "rock": require("../../assets/rock.png"),
     "r&b": require("../../assets/r&b.png"),
@@ -31,10 +33,13 @@ function Home() {
   useEffect(async () => {
       let response = await fetch(`${url}/top/artists`);
       let response2 = await fetch(`${url}/genres`);
+      let response3 = await fetch(`${url}/top/playlists`);
       response = await response.json();
       response2 = await response2.json();
+      response3 = await response3.json();
       setTopArtists(response);
       setTopGenres(response2);
+      setTopPlaylists(response3);
   }, []);
   return (
     <React.Fragment>
@@ -51,7 +56,7 @@ function Home() {
             style={styles.container}
             showsHorizontalScrollIndicator={false}>
             {topArtists.length < 1 ? <Text>Loading...</Text> : topArtists.map((topArtist,index) => {
-              return <TouchableOpacity onPress={()=> navigation.push('Playlist',{title:topArtist.track_artist,endpoint:`/artist/${topArtist.track_artist}`,img:topArtist.artist_image.length>1 ? {uri : topArtist.artist_image} : require('../../assets/album5.jpg')})}>
+              return <TouchableOpacity key={index} onPress={()=> navigation.push('Playlist',{title:topArtist.track_artist,endpoint:`/artist/${topArtist.track_artist}`,img:topArtist.artist_image.length>1 ? {uri : topArtist.artist_image} : require('../../assets/album5.jpg')})}>
                 <TrackLabel
                           text={topArtist.track_artist}
                           image={topArtist.artist_image.length>1 ? {uri : topArtist.artist_image} : require('../../assets/album5.jpg')}
@@ -71,7 +76,7 @@ function Home() {
             style={styles.container}
             showsHorizontalScrollIndicator={false}>
             {topGenres.length < 1 ? <Text>Loading...</Text> : topGenres.map((topGenre,index) => {
-              return <TouchableOpacity onPress={()=> navigation.push('Playlist',{title:topGenre.toUpperCase(),endpoint:`/genre/${topGenre}`,img:genreImages[topGenre]})}> 
+              return <TouchableOpacity key={index} onPress={()=> navigation.push('Playlist',{title:topGenre.toUpperCase(),endpoint:`/genre/${topGenre}`,img:genreImages[topGenre]})}> 
                 <TrackLabel
                         text={topGenre.toUpperCase()}
                         image={genreImages[topGenre]}
@@ -79,6 +84,26 @@ function Home() {
                         type="home"
                         navigation={navigation}/>
                 </TouchableOpacity>
+            })}
+          </ScrollView>
+        </View>
+        <View style={{paddingTop: 20}}>
+          <Text style={styles.labelText}>Top Playlist</Text>
+          <ScrollView
+            horizontal={true}
+            overScrollMode="never"
+            style={styles.container}
+            showsHorizontalScrollIndicator={false}>
+            {topPlaylists.length < 1 ? <Text>Loading...</Text> : topPlaylists.map((topPlaylist,index) => {
+              return <TouchableOpacity key={index} onPress={()=> navigation.push('Playlist',{title:topPlaylist.playlist_name,endpoint:`/playlist/${topPlaylist.playlist_name}`,img:topPlaylist.artist_image.length>1 ? {uri : topPlaylist.artist_image} : require('../../assets/album5.jpg')})}>
+              <TrackLabel
+                        text={topPlaylist.playlist_name}
+                        image={topPlaylist.artist_image.length>1 ? {uri : topPlaylist.artist_image} : require('../../assets/album5.jpg')}
+                        gradient={index%3==0 ? ['rgba(238, 0, 143, 0)', '#D708F9']: index%3==1 ? ['rgba(255, 255, 255, 0)', '#00FFA3'] :['rgba(238, 255, 255, 0)', '#0137C7'] }
+                        type="home"
+                        navigation={navigation}>
+              </TrackLabel>
+            </TouchableOpacity>
             })}
           </ScrollView>
         </View>
@@ -90,7 +115,7 @@ function Home() {
             style={styles.container}
             showsHorizontalScrollIndicator={false}>
             {musicByLangs.length < 1 ? <Text>Loading...</Text> : musicByLangs.map((musicByLang,index) => {
-              return <TouchableOpacity onPress={()=> navigation.push('Playlist',{title:musicByLang.displayName,endpoint:`/lang/${musicByLang.lang}`,img:musicByLang.img})}>
+              return <TouchableOpacity key={index} onPress={()=> navigation.push('Playlist',{title:musicByLang.displayName,endpoint:`/lang/${musicByLang.lang}`,img:musicByLang.img})}>
                 <TrackLabel
                         text={musicByLang.displayName}
                         image={musicByLang.img}

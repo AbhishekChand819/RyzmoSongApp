@@ -23,7 +23,7 @@ export default function App() {
   changeNavigationBarColor('#1B0536');
   const [songs, setSongs] = useState([]);
       useEffect(async () => {
-         TrackPlayer.setupPlayer() 
+         TrackPlayer.setupPlayer({}).then(async () => {}) 
     }, []);
   
   return (
