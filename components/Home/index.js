@@ -7,9 +7,9 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { url } from "../../constants"
 import { useNavigation } from '@react-navigation/native';
-import Skeleton from 'react-loading-skeleton';
+import SkeletonPlaceholder  from 'react-native-skeleton-placeholder';
 
-function HomeSection({ heading, songs, navigateTo, routingParams, endpoint }) {
+function HomeSection({ heading, songs, navigateTo, endpoint }) {
   const navigation = useNavigation();
 
   const genreImages={
@@ -30,7 +30,13 @@ function HomeSection({ heading, songs, navigateTo, routingParams, endpoint }) {
         style={styles.container}
         showsHorizontalScrollIndicator={false}
       >
-        {songs.length < 1 ? <Text>Loading...</Text> : songs.map((song, index) => {
+        {songs.length < 1 ? [1,2,3].map((index)=>
+          <SkeletonPlaceholder key={index} speed={2000} backgroundColor='#6425B1' highlightColor="#B62EAD">
+            <View style={{ width:160,height:150,borderRadius:10,marginRight:20}}></View>
+            <View style={{width:140,height:15,marginTop:10,borderRadius:10}}></View>
+            <View style={{width:60,height:10,marginTop:5,borderRadius:10}}></View>
+          </SkeletonPlaceholder>
+        ) : songs.map((song, index) => {
           if(endpoint === 'genre') {
             return (
               <TouchableOpacity key={index} onPress={() => {
@@ -129,11 +135,11 @@ function Home() {
   ];
 
   useEffect(async () => {
+    fetch(`${url}/top/songs`).then(res => res.json()).then(res => setTopSongs(res));
     fetch(`${url}/top/artists`).then(res => res.json()).then(res => setTopArtists(res));
     fetch(`${url}/genres`).then(res => res.json()).then(res => setTopGenres(res));
     fetch(`${url}/top/playlists`).then(res => res.json()).then(res => setTopPlaylists(res));
-    fetch(`${url}/recommend/8b2144c2002f0d70f6ef5d5c3554a0e254198dab`).then(res => res.json()).then(res => setRecommendedSongs(res));
-    fetch(`${url}/top/songs`).then(res => res.json()).then(res => setTopSongs(res));
+    fetch(`${url}/recommend/123`).then(res => res.json()).then(res => setRecommendedSongs(res));
   }, []);
 
   return (
@@ -185,8 +191,6 @@ function Home() {
           navigateTo="Playlist"
           endpoint="lang"
         />
-
-        {/* <Skeleton count={1} width={160} height={150} /> */}
 
       </ScrollView>
       <AppNavigator navigation={navigation}></AppNavigator>
