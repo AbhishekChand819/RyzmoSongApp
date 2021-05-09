@@ -12,7 +12,6 @@ import MusicPlayer from './components/MusicPlayer';
 import TrackPlayer from 'react-native-track-player';
 import { useEffect } from 'react';
 
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 

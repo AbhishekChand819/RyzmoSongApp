@@ -4,20 +4,31 @@ import {styles} from './styles';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
+import AnimatedSplash from "react-native-animated-splash-screen";
+import Home from '../Home';
 
 function SplashScreen() {
   const navigation = useNavigation();
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(async () => {
     setTimeout(()=>{
-        navigation.push('Home')
-    },2000)
-}, []);
+      setIsLoaded(true);
+    }, 2000)
+  }, []);
+
   return (
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
-        <View style={{paddingTop: 10}}>
-          <Image source={require('../../assets/logo.png')}/>
-        </View>
+      <AnimatedSplash
+        isLoaded={isLoaded}
+        logoImage={require("../../assets/logo.png")}
+        backgroundColor={"#1B0536"}
+        logoHeight={120}
+        logoWidth={120}
+      >
+        <Home/> 
+      </AnimatedSplash>
     </React.Fragment>
   );
 }
