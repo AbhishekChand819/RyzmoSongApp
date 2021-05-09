@@ -186,7 +186,7 @@ function Home() {
           endpoint="lang"
         />
 
-        <Skeleton count={1} width={160} height={150} />
+        {/* <Skeleton count={1} width={160} height={150} /> */}
 
       </ScrollView>
       <AppNavigator navigation={navigation}></AppNavigator>

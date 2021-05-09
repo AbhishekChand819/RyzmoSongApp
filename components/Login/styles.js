@@ -20,42 +20,26 @@ export const styles = StyleSheet.create({
     labelText: {
         marginTop:8,
         marginLeft:30,
+        marginBottom:20,
         fontFamily: "Montserrat",
         fontSize: 20,
         color: "#EE008F"
+    },
+    inputWrapper: {
+        position: 'relative'
     },
     contactIcon:{
         position: "absolute",
         width: 20,
         height: 20,
         left: 54,
-        top: 326
+        top: 18
     },
-    contactIcon2:{
-        position: "absolute",
-        width: 20,
-        height: 20,
-        left: 54,
-        top: 406
-    },
-    emailBox:{
+    inputBox:{
         width:"86%",
         height: 59,
-        marginTop:40,
+        marginBottom:20,
         marginLeft:30, 
-        fontFamily: "Montserrat",
-        fontSize: 15,
-        borderWidth:2.5,
-        borderColor:"#FFFFFF",
-        borderRadius:20,
-        paddingLeft:60,
-        color:"#FFFFFF"
-    },
-    passwordBox:{
-        width: "86%",
-        height: 59,
-        marginTop:20,
-        marginLeft:30,
         fontFamily: "Montserrat",
         fontSize: 15,
         borderWidth:2.5,
@@ -69,7 +53,6 @@ export const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center", 
         width: "86%",
-        marginTop:20,
         marginLeft:30,
         height: 59,
         backgroundColor: "#EE008F",
