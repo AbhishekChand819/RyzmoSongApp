@@ -156,8 +156,7 @@ function MusicPlayer() {
                     <TouchableOpacity onPress={async () => {
                         const len = await TrackPlayer.getQueue();
                         const curr = await TrackPlayer.getCurrentTrack();
-                        console.log('>>> len', len, curr)
-                        if(len <= curr) TrackPlayer.skipToNext()}}>
+                        if(len.length >= curr) TrackPlayer.skipToNext()}}>
                         <ImageBackground
                             style={styles.SongOptionForward}
                             source={require('../../assets/forward.png')}>

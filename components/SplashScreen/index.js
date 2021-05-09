@@ -4,9 +4,9 @@ import {styles} from './styles';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import AnimatedSplash from "react-native-animated-splash-screen";
 import Home from '../Home';
+
 
 function SplashScreen() {
   const navigation = useNavigation();

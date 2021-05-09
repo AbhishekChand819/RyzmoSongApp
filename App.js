@@ -8,6 +8,8 @@ import Home from './components/Home';
 import Search from './components/Search';
 import Playlist from './components/Playlist'
 import MusicPlayer from './components/MusicPlayer';
+import Signup from "./components/Signup";
+import Login from "./components/Login"
 
 import TrackPlayer from 'react-native-track-player';
 import { useEffect } from 'react';
@@ -27,7 +29,9 @@ export default function App() {
   
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="SignUp" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Register" component={Signup} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Search" component={Search} />

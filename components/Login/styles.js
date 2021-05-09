@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "#1B0536",
     },
     tinyLogo: {
-        marginTop:60,
+        marginTop:100,
         marginLeft:30
     },
     welcomeText: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         color: "#FFFFFF"
     },
     labelText: {
-        marginBottom:20,
+        marginTop:8,
         marginLeft:30,
         fontFamily: "Montserrat",
         fontSize: 20,
@@ -29,30 +29,47 @@ export const styles = StyleSheet.create({
         width: 20,
         height: 20,
         left: 54,
-        top: 18
+        top: 326
     },
-    inputWrapper: {
-        position: 'relative'
+    contactIcon2:{
+        position: "absolute",
+        width: 20,
+        height: 20,
+        left: 54,
+        top: 406
     },
-    inputBox:{
-      width:"86%",
-      height: 59,
-      marginBottom:20,
-      marginLeft:30, 
-      fontFamily: "Montserrat",
-      fontSize: 15,
-      borderWidth:2.5,
-      borderColor:"#FFFFFF",
-      borderRadius:20,
-      paddingLeft:60,
-      color:"#FFFFFF"
+    emailBox:{
+        width:"86%",
+        height: 59,
+        marginTop:40,
+        marginLeft:30, 
+        fontFamily: "Montserrat",
+        fontSize: 15,
+        borderWidth:2.5,
+        borderColor:"#FFFFFF",
+        borderRadius:20,
+        paddingLeft:60,
+        color:"#FFFFFF"
+    },
+    passwordBox:{
+        width: "86%",
+        height: 59,
+        marginTop:20,
+        marginLeft:30,
+        fontFamily: "Montserrat",
+        fontSize: 15,
+        borderWidth:2.5,
+        borderColor:"#FFFFFF",
+        borderRadius:20,
+        paddingLeft:60,
+        color:"#FFFFFF"
     },
     SignInButton:{
         display:"flex",
         justifyContent:"center",
         alignItems:"center", 
         width: "86%",
-        marginTop:10,
+        marginTop:20,
         marginLeft:30,
         height: 59,
         backgroundColor: "#EE008F",

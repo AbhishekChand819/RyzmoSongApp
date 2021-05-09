@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { url } from "../../constants"
 import { useNavigation } from '@react-navigation/native';
+import Skeleton from 'react-loading-skeleton';
 
 function HomeSection({ heading, songs, navigateTo, routingParams, endpoint }) {
   const navigation = useNavigation();
@@ -143,11 +144,13 @@ function Home() {
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}>
 
-        <HomeSection 
-          heading="Recommended for you"
-          songs={recommendedSongs}
-          navigateTo="Music Player"
-        />
+        {
+          recommendedSongs.length > 0 && <HomeSection 
+            heading="Recommended for you"
+            songs={recommendedSongs}
+            navigateTo="Music Player"
+          />
+        }
 
         <HomeSection 
           heading="Trending Songs"
@@ -182,6 +185,9 @@ function Home() {
           navigateTo="Playlist"
           endpoint="lang"
         />
+
+        <Skeleton count={1} width={160} height={150} />
+
       </ScrollView>
       <AppNavigator navigation={navigation}></AppNavigator>
     </React.Fragment>
