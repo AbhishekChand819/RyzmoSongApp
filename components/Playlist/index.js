@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { url } from "../../constants"
 import { useRoute } from '@react-navigation/native';
+import SkeletonPlaceholder  from 'react-native-skeleton-placeholder';
+
 
 
 function Playlist() {
@@ -49,7 +51,17 @@ function Playlist() {
                             source={require('../../assets/playbtn.png')}>
                         </ImageBackground>
                     </View>
-                    {songs.length < 1 ? <Text>Loading...</Text> : songs.map(song => {
+                    {songs.length < 1 ? [1,2,3,4,5,6].map((index)=>
+                        <SkeletonPlaceholder key={index} speed={2000} backgroundColor='#6425B1' highlightColor="#B62EAD">
+                        <View style={{display:"flex",flexDirection:'row',marginBottom:10}}>
+                            <View style={{ width:50,height:45}}></View>
+                            <View style={{display:'flex',width:"80%",flexDirection:'column',marginLeft:15}}>
+                                <View style={{display:'flex',height:17,marginTop:6}}></View>
+                                <View style={{display:'flex',width:"30%",height:12,marginTop:5}}></View>
+                            </View>
+                        </View>
+                        </SkeletonPlaceholder>) 
+                    : songs.map(song => {
                         return <Song
                             key={song.track_id}
                             title={song.track_name}

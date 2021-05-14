@@ -4,6 +4,7 @@ export const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
     backgroundColor: '#1B0536',
+    paddingTop:30
   },
   queueWrapper:{
     display: 'flex',
@@ -18,7 +19,8 @@ export const styles = StyleSheet.create({
     marginLeft:"auto",
     justifyContent:"space-evenly",
     width:"30%",
-    borderRadius:30,
+    borderRadius:10,
+    marginTop:30,
     marginBottom:30,
     paddingVertical:2,
     backgroundColor:"rgba(87, 19, 171, 0.6)"

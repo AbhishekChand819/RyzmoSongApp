@@ -139,7 +139,7 @@ function Home() {
     fetch(`${url}/top/artists`).then(res => res.json()).then(res => setTopArtists(res));
     fetch(`${url}/genres`).then(res => res.json()).then(res => setTopGenres(res));
     fetch(`${url}/top/playlists`).then(res => res.json()).then(res => setTopPlaylists(res));
-    fetch(`${url}/recommend/123`).then(res => res.json()).then(res => setRecommendedSongs(res));
+    fetch(`${url}/recommend/8b2144c2002f0d70f6ef5d5c3554a0e254198dab`).then(res => res.json()).then(res => setRecommendedSongs(res));
   }, []);
 
   return (

@@ -5,6 +5,7 @@ import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity,Mo
 import { styles } from './styles';
 import Song from "../shared/Song"
 import { url } from "../../constants"
+import SkeletonPlaceholder  from 'react-native-skeleton-placeholder';
 
 import TrackPlayer from 'react-native-track-player';
 
@@ -105,7 +106,17 @@ function MusicPlayer() {
                                 </ImageBackground>
                             </View>
                         </TouchableOpacity>
-                        {songQueue.length < 1 ? <Text>Loading...</Text> : songQueue.map(songQ => {
+                        {songQueue.length < 1 ? [1,2,3,4,5,6,7,8,9,10,11,12].map((index)=>
+                            <SkeletonPlaceholder key={index} speed={2000} backgroundColor='#6425B1' highlightColor="#B62EAD">
+                                <View style={{display:"flex",flexDirection:'row',marginBottom:10}}>
+                                    <View style={{ width:50,height:45}}></View>
+                                    <View style={{display:'flex',width:"80%",flexDirection:'column',marginLeft:15}}>
+                                        <View style={{display:'flex',height:17,marginTop:6}}></View>
+                                        <View style={{display:'flex',width:"30%",height:12,marginTop:5}}></View>
+                                    </View>
+                                </View>
+                            </SkeletonPlaceholder>) 
+                        : songQueue.map(songQ => {
                             return <Song
                                 key={songQ.track_id}
                                 title={songQ.track_name}
