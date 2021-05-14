@@ -187,7 +187,7 @@ function MusicPlayer() {
                     </TouchableOpacity>
                     <ImageBackground
                         style={styles.SongMenuHeart}
-                        source={require('../../assets/heart.png')}>
+                        source={require('../../assets/heartfill.png')}>
                     </ImageBackground>
                 </View>
             </ScrollView>

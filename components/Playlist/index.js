@@ -11,8 +11,6 @@ import { url } from "../../constants"
 import { useRoute } from '@react-navigation/native';
 import SkeletonPlaceholder  from 'react-native-skeleton-placeholder';
 
-
-
 function Playlist() {
     const navigation = useNavigation();
     const [songs, setSongs] = useState([]);
@@ -72,7 +70,7 @@ function Playlist() {
                     })}
                 </View>
             </ScrollView>
-            <AppNavigator></AppNavigator>
+            <AppNavigator navigation={navigation}></AppNavigator>
         </React.Fragment>
     );
 }

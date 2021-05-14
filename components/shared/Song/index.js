@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text,ImageBackground, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import { useNavigation } from '@react-navigation/native';
 
 function Song({title, image, artists, icon, url, route}){
+    const [like,setLike]=useState(false)
     const navigation = useNavigation();
     if(icon=="plus"){
         return(
@@ -28,32 +29,40 @@ function Song({title, image, artists, icon, url, route}){
         );
     } else {
         return(
-            <TouchableOpacity onPress={()=> {
-                if(route=='queue'){
-                    navigation.pop(1);
-                    navigation.push('Music Player',{title,artists,image,url}) 
-                } else navigation.push('Music Player',{title,artists,image,url})}}>
                 <View style={styles.subSongContainer}>
-                    <ImageBackground
-                        style={styles.imgSong}
-                        source={image}>
-                    </ImageBackground> 
-                    <View style={styles.subLabelContainer}>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.labelSongTitle}>{title}</Text>
-                        <Text style={styles.labelSongArtist}>{artists}</Text>
-                    </View>
-                    <View style={styles.songOption}>
-                        <ImageBackground 
-                            style={styles.imgHeart}
-                            source={require('../../../assets/heart.png')}>
+                    <TouchableOpacity style={{display:"flex",flexDirection:"row"}} onPress={()=> {
+                        if(route=='queue'){
+                            navigation.pop(1);
+                            navigation.push('Music Player',{title,artists,image,url}) 
+                        } else navigation.push('Music Player',{title,artists,image,url})}}>  
+                        <ImageBackground
+                            style={styles.imgSong}
+                            source={image}>
                         </ImageBackground> 
+                        <View style={styles.subLabelContainer}>
+                            <Text numberOfLines={1} ellipsizeMode='tail' style={styles.labelSongTitle}>{title}</Text>
+                            <Text style={styles.labelSongArtist}>{artists}</Text>
+                        </View>
+                    </TouchableOpacity> 
+                    <View style={styles.songOption}>
+                        <TouchableOpacity onPress={()=> setLike(!like)}>
+                            {like ?  
+                                <ImageBackground 
+                                    style={styles.imgHeart}
+                                    source={require('../../../assets/heartfill.png')}>
+                                </ImageBackground> :                            
+                                <ImageBackground 
+                                    style={styles.imgHeart}
+                                    source={require('../../../assets/heartempty.png')}>
+                                </ImageBackground> 
+                            }
+                        </TouchableOpacity>
                         <ImageBackground 
                             style={styles.imgOption}
                             source={require('../../../assets/option.png')}>
                         </ImageBackground> 
                     </View>
                 </View>
-            </TouchableOpacity>
         );
     }
 

@@ -22,7 +22,7 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
   };
 
   return (
-    <View style={{ paddingBottom: 20 }}>
+    <View style={{ paddingBottom: 20 }}> 
       <Text style={styles.labelText}>{heading}</Text>
       <ScrollView
         horizontal={true}
@@ -50,8 +50,9 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
                   text={song.toUpperCase()}
                   image={genreImages[song]}
                   gradient={
-                    index%3==0 ? ['rgba(238, 255, 255, 0)', '#0137C7'] : 
-                    index%3==1 ?['rgba(238, 0, 143, 0)', '#D708F9'] : 
+                    index%4==3 ? ['rgba(238, 255, 255, 0)', '#0137C7'] : 
+                    index%4==1 ?['rgba(238, 255, 255, 0)', '#D708F9'] :
+                    index%4==2 ?['rgba(238, 255, 255, 0)', '#fcff47'] :
                     ['rgba(255, 255, 255, 0)', '#00FFA3'] 
                   }type="home"
                   navigation={navigation}
@@ -72,8 +73,9 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
                   text={displayName}
                   image={img}
                   gradient={
-                    index%3==0 ? ['rgba(238, 255, 255, 0)', '#0137C7'] : 
-                    index%3==1 ?['rgba(238, 0, 143, 0)', '#D708F9'] : 
+                    index%4==2 ? ['rgba(238, 255, 255, 0)', '#0137C7'] : 
+                    index%4==0 ?['rgba(238, 255, 255, 0)', '#D708F9'] :
+                    index%4==3 ?['rgba(238, 255, 255, 0)', '#fcff47'] :
                     ['rgba(255, 255, 255, 0)', '#00FFA3'] 
                   }type="home"
                   navigation={navigation}
@@ -99,12 +101,19 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
                 });
               }}>
                 <TrackLabel
-                  text={track_artist}
+                  text={navigateTo === 'Music Player'? track_name : track_artist}
                   image={artist_image.length > 1 ? { uri : artist_image } : require('../../assets/album5.jpg')}
                   gradient={
-                    index%3==0 ? ['rgba(238, 255, 255, 0)', '#0137C7'] : 
-                    index%3==1 ?['rgba(238, 0, 143, 0)', '#D708F9'] : 
-                    ['rgba(255, 255, 255, 0)', '#00FFA3'] 
+                    heading =="Trending Songs" ? (
+                    index%4==1 ? ['rgba(238, 255, 255, 0)', '#0137C7'] : 
+                    index%4==2 ?['rgba(238, 255, 255, 0)', '#D708F9'] :
+                    index%4==0 ?['rgba(238, 255, 255, 0)', '#fcff47'] :
+                    ['rgba(255, 255, 255, 0)', '#00FFA3'] ) : (
+                      index%4==0 ? ['rgba(238, 255, 255, 0)', '#0137C7'] : 
+                      index%4==2 ?['rgba(238, 255, 255, 0)', '#D708F9'] :
+                      index%4==3 ?['rgba(238, 255, 255, 0)', '#fcff47'] :
+                      ['rgba(255, 255, 255, 0)', '#00FFA3']
+                    )
                   }
                   type="home"
                   navigation={navigation} 
@@ -179,7 +188,7 @@ function Home() {
         />
 
         <HomeSection 
-          heading="Top Playlist"
+          heading="Popular Albums"
           songs={topPlaylists}
           navigateTo="Playlist"
           endpoint="playlist"
