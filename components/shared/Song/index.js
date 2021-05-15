@@ -28,6 +28,7 @@ function Song({title, image, artists, icon, url, route}){
             </React.Fragment>
         );
     } else {
+        if(!url) return null 
         return(
                 <View style={styles.subSongContainer}>
                     <TouchableOpacity style={{display:"flex",flexDirection:"row"}} onPress={()=> {

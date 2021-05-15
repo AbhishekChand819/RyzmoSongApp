@@ -1,11 +1,37 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {View, Text,StatusBar,ScrollView,TextInput,Image} from 'react-native';
 import {styles} from './styles';
 import AppNavigator from '../Navbar';
 import search from '../../assets/search1.png';
 import GenreLabel from '../shared/SearchGenreLabel';
+import { url } from "../../constants"
+import Song from '../shared/Song';
 
 function Search({navigation}) {
+  const [topGenres, setTopGenres] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(async () => {
+    fetch(`${url}/genres`).then(res => res.json()).then(res => setTopGenres(res));
+  }, []);
+
+  const handleSearch = async (text) => {
+    if(text.length>0) {
+      fetch(`${url}/search/${text}`).then(res => res.json()).then(res => setSearchResults(res));
+    } else {
+      setSearchResults([])
+    }
+  }
+
+  const genreImages={
+    "rock": require("../../assets/rock.png"),
+    "r&b": require("../../assets/r&b.png"),
+    "pop": require("../../assets/pop.png"),
+    "edm": require("../../assets/edm.png"),
+    "latin": require("../../assets/latin.png"),
+    "rap": require("../../assets/rap.png")
+  };
+
   return (
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
@@ -19,40 +45,30 @@ function Search({navigation}) {
           style={styles.SearchInput}
           placeholder="Song or Artist..."
           placeholderTextColor="#E9D5E1"
+          onChangeText={text => handleSearch(text)}
           >
         </TextInput>
-        <View style={styles.container}>
-          <GenreLabel
-            text="EDM"
-            image={require('../../assets/edm.png')}></GenreLabel>
-          <GenreLabel
-            text="ROCK"
-            image={require('../../assets/rock.png')}></GenreLabel>
-          <GenreLabel
-            text="JAZZ"
-            image={require('../../assets/jazz.png')}></GenreLabel>
-          <GenreLabel
-            text="DUBSTEP"
-            image={require('../../assets/dubstep.png')}></GenreLabel>
-          <GenreLabel
-            text="R&B"
-            image={require('../../assets/r&b.png')}></GenreLabel>
-          <GenreLabel
-            text="TECHNO"
-            image={require('../../assets/techno.png')}></GenreLabel>
-          <GenreLabel
-            text="COUNTRY"
-            image={require('../../assets/country.png')}></GenreLabel>
-          <GenreLabel
-            text="ELECTRO"
-            image={require('../../assets/electro.png')}></GenreLabel>
-          <GenreLabel
-            text="INDIE ROCK"
-            image={require('../../assets/indierock.png')}></GenreLabel>
-          <GenreLabel
-            text="POP"
-            image={require('../../assets/pop.png')}></GenreLabel>
-        </View>
+        {
+          searchResults.length > 0 ? 
+            <View style={styles.container}>
+            {searchResults.map(song => 
+                <Song 
+                  key={song.track_id}
+                  title={song.track_name}
+                  image={song.artist_image.length>1 ? {uri : song.artist_image} : require('../../assets/album5.jpg')}
+                  artists={song.track_artist}
+                  url={song.track_preview} />
+              )}
+            </View> : 
+            <View style={styles.genreContainer}>
+              {topGenres.map((genre, index) => 
+              <GenreLabel
+                key={index}
+                text={genre.toUpperCase()}
+                image={genreImages[genre]}></GenreLabel>
+              )}
+            </View>
+        }
       </ScrollView>
       <AppNavigator navigation={navigation}></AppNavigator>
     </React.Fragment>

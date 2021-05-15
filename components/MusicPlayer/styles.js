@@ -102,7 +102,7 @@ export const styles = StyleSheet.create({
     width:26,
     height:32,
     marginLeft:40,
-    marginVertical:15
+    marginVertical:15,
   },
   SongOptionBackward:{
     width:18,

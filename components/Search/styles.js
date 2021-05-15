@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     backgroundColor: '#1B0536',
     height: '100%',
+    width: '100%'
   },
   heading: {
     fontFamily: 'Montserrat-SemiBold',
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     width: 23,
     height: 23,
-    left: 50,
+    left: 40,
     top: 74,
     zIndex:1
   },
@@ -36,11 +37,15 @@ export const styles = StyleSheet.create({
   },
   container: {
     display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    marginHorizontal: 25,
     justifyContent:"space-evenly",
-    marginTop:10,
-    marginLeft:10,
-    marginRight:10
+    marginTop:30,
   },
+  genreContainer:{
+    display: 'flex',
+    flexDirection:"row",
+    flexWrap:"wrap",
+    justifyContent:"space-evenly",
+    marginTop:20,
+  }
 });

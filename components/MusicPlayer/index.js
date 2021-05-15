@@ -19,6 +19,8 @@ function MusicPlayer() {
     const [songArtist,setSongArtist] = useState('')
     const [songImg,setSongImg] = useState('')
     const [songQueue,setSongQueue] = useState([])
+    const [loop,setLoop]=useState(false)
+
     const route = useRoute();
     const isMounted = useRef(false);
     async function getInfo(){
@@ -26,6 +28,29 @@ function MusicPlayer() {
         info = Math.floor(info)
         setcurrentTime(info);
     }
+    const shuffleArray = (array) => {
+		let currentIndex = array.length, temporaryValue, randomIndex;
+		// While there remain elements to shuffle...
+		while (0 !== currentIndex) {
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+			// And swap it with the current element.
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+		return array;
+	};
+	const shuffle = async () => {
+		const queue = await TrackPlayer.getQueue();
+		const shuffledQueue = shuffleArray(queue);
+        setSongQueue(shuffledQueue);
+		await TrackPlayer.destroy()
+		await TrackPlayer.setupPlayer();
+		await TrackPlayer.add(shuffledQueue);
+		await TrackPlayer.play();
+	};
     useEffect(async () => {
         let response = await fetch(`${url}/recommend/song/${route.params.title}`);
         let skipped = 0;
@@ -137,10 +162,12 @@ function MusicPlayer() {
                     <Text style={styles.SongEndTime}>0:30</Text>
                 </View>
                 <View style={styles.SongOptionPanel}>
-                    <ImageBackground
-                        style={styles.SongOptionShuffle}
-                        source={require('../../assets/shuffle.png')}>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={() => console.log('shuffle songs')}>
+                        <ImageBackground
+                            style={styles.SongOptionShuffle}
+                            source={require('../../assets/shuffle.png')}>
+                        </ImageBackground>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={async () => {
                         const curr = await TrackPlayer.getCurrentTrack();
                         if(curr>=1) TrackPlayer.skipToPrevious() }}>
@@ -173,10 +200,12 @@ function MusicPlayer() {
                             source={require('../../assets/forward.png')}>
                         </ImageBackground>
                     </TouchableOpacity>
-                    <ImageBackground
-                        style={styles.SongOptionRepeat}
-                        source={require('../../assets/repeat.png')}>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={()=> setLoop(!loop)}>
+                        <ImageBackground
+                            style={styles.SongOptionRepeat}
+                            source={loop ? require('../../assets/repeatfill.png') : require('../../assets/repeat.png')}>
+                        </ImageBackground>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.SongMenuPanel}>
                     <TouchableOpacity onPress={() => {setModalVisible(true)}}>
