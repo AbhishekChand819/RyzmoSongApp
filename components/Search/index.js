@@ -16,6 +16,7 @@ function Search({navigation}) {
   }, []);
 
   const handleSearch = async (text) => {
+    console.log(text)
     if(text.length>0) {
       fetch(`${url}/search/${text}`).then(res => res.json()).then(res => setSearchResults(res));
     } else {
