@@ -19,6 +19,7 @@ import { CardStyleInterpolators,createStackNavigator } from '@react-navigation/s
 
 const Stack = createStackNavigator();
 
+
 export default function App() {
   const [currentRoute,setcurrentRoute] = useState('/');
   changeNavigationBarColor('#1B0536');
