@@ -3,7 +3,7 @@ import {View, Text,ImageBackground, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import { useNavigation } from '@react-navigation/native';
 
-function Song({title, image, artists, icon, url, route}){
+function Song({id, title, image, artists, icon, url, route, playlist}){
     const [like,setLike]=useState(false)
     const navigation = useNavigation();
     if(icon=="plus"){
@@ -28,14 +28,17 @@ function Song({title, image, artists, icon, url, route}){
             </React.Fragment>
         );
     } else {
+        // dhyan se coding kra kr, code ki line nhi dikhti ek
+        // yahan hum agar song ka url nhi h toh use hta dete h
         if(!url) return null 
+
         return(
                 <View style={styles.subSongContainer}>
                     <TouchableOpacity style={{display:"flex",flexDirection:"row"}} onPress={()=> {
                         if(route=='queue'){
                             navigation.pop(1);
-                            navigation.push('Music Player',{title,artists,image,url}) 
-                        } else navigation.push('Music Player',{title,artists,image,url})}}>  
+                            navigation.push('Music Player',{id,title,artists,image,url, playlist}) 
+                        } else navigation.push('Music Player',{id,title,artists,image,url, playlist})}}>  
                         <ImageBackground
                             style={styles.imgSong}
                             source={image}>

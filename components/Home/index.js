@@ -87,7 +87,11 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
             if(endpoint === 'playlist') {
               track_artist = playlist_name;
             }
+
+            // Dhyan diya kro jab code kr rhe ho toh
+            // Yahan hum empty gaane hta rhe h
             if(!track_preview && navigateTo === "Music Player") return null
+
             return (
               <TouchableOpacity key={index} onPress={() => {
                 navigation.push(navigateTo, navigateTo === 'Music Player' ? { 

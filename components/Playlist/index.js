@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StatusBar, Text, ScrollView, ImageBackground } from 'react-native';
+import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import AppNavigator from '../Navbar';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,6 +20,7 @@ function Playlist() {
         response = await response.json();
         setSongs(response);
     }, []);
+
     return (
         <React.Fragment>
             <StatusBar backgroundColor="#1B0536" />
@@ -44,10 +45,23 @@ function Playlist() {
                                 <Text style={styles.labelSubText}>102 Hours</Text>
                             </View>
                         </View>
-                        <ImageBackground
-                            style={styles.imgPlayBtn}
-                            source={require('../../assets/playbtn.png')}>
-                        </ImageBackground>
+                        <TouchableOpacity onPress={() => {
+                            if(songs.length > 0) {
+                                navigation.push('Music Player', {
+                                    id: songs[0].track_id,
+                                    title: songs[0].track_name,
+                                    artists: songs[0].track_artist,
+                                    image: songs[0].artist_image.length>1 ? {uri : songs[0].artist_image} : require('../../assets/album5.jpg'),
+                                    url: songs[0].track_preview, 
+                                    playlist: songs
+                                });
+                            }
+                        }}>
+                            <ImageBackground
+                                style={styles.imgPlayBtn}
+                                source={require('../../assets/playbtn.png')}>
+                            </ImageBackground>
+                        </TouchableOpacity>
                     </View>
                     {songs.length < 1 ? [1,2,3,4,5,6].map((index)=>
                         <SkeletonPlaceholder key={index} speed={2000} backgroundColor='#6425B1' highlightColor="#B62EAD">
@@ -62,10 +76,12 @@ function Playlist() {
                     : songs.map(song => {
                         return <Song
                             key={song.track_id}
+                            id={song.track_id}
                             title={song.track_name}
                             image={song.artist_image.length>1 ? {uri : song.artist_image} : require('../../assets/album5.jpg')}
                             artists={song.track_artist}
                             url={song.track_preview}
+                            playlist={songs}
                         />
                     })}
                 </View>

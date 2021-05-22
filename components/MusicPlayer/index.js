@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import { useEffect } from 'react';
 import React from 'react';
-import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity,Modal } from 'react-native';
+import { View, StatusBar, Text, ScrollView, ImageBackground, TouchableOpacity, Modal } from 'react-native';
 import { styles } from './styles';
 import Song from "../shared/Song"
 import { url } from "../../constants"
@@ -52,21 +52,22 @@ function MusicPlayer() {
 		await TrackPlayer.play();
 	};
     useEffect(async () => {
-        let response = await fetch(`${url}/recommend/song/${route.params.title}`);
-        let skipped = 0;
-        response = await response.json();
-        setSongQueue(response)
-        response.map(async (song,index) => {
-            if(song.track_preview.length>1){
-                await TrackPlayer.add({
-                    id: index+2-skipped,
-                    url: song.track_preview,
-                    title: song.track_name,
-                    artist: song.track_artist,
-                    artwork: {"uri": song.artist_image}
-                });
-            } else skipped++;
-        })
+        if(!route.params.playlist) {
+            let response = await fetch(`${url}/recommend/song/${route.params.title}`);
+            response = await response.json();
+            setSongQueue(response)
+            response.map(async (song) => {
+                if(song.track_preview.length>1){
+                    await TrackPlayer.add({
+                        id: song.track_id,
+                        url: song.track_preview,
+                        title: song.track_name,
+                        artist: song.track_artist,
+                        artwork: {"uri": song.artist_image}
+                    });
+                }
+            })
+        }
     }, []);
     useEffect(async() => {
         isMounted.current = true;
@@ -83,15 +84,53 @@ function MusicPlayer() {
         );
         TrackPlayer.updateOptions({
             stopWithApp: true,
-          });
+        });
         TrackPlayer.reset();
         await TrackPlayer.add({
-                id: 1,
-                url: route.params.url,
-                title: route.params.title,
-                artist: route.params.artists,
-                artwork: route.params.image
+            id: route.params.id,
+            url: route.params.url,
+            title: route.params.title,
+            artist: route.params.artists,
+            artwork: route.params.image
+        });
+        
+        const currentSongId = route.params.id;
+        if(route.params.playlist) {
+            let flag = false;
+            const queue = [];
+            route.params.playlist.map(async song => {
+                if(!song.track_preview) return;
+                
+                queue.push(song);
+                if(song.track_id === currentSongId) {
+                    flag = true;
+                    return;
+                }
+
+                if(flag) {
+                    // now we are ahead of the current track
+                    await TrackPlayer.add({
+                        id: song.track_id,
+                        url: song.track_preview,
+                        title: song.track_name,
+                        artist: song.track_artist,
+                        artwork: {"uri": song.artist_image}
+                    });
+                } else {
+                    // adding songs before the current playing track
+                    await TrackPlayer.add({
+                        id: song.track_id,
+                        url: song.track_preview,
+                        title: song.track_name,
+                        artist: song.track_artist,
+                        artwork: {"uri": song.artist_image}
+                    }, currentSongId);
+                }
             });
+
+            setSongQueue(queue);
+        }
+        
         TrackPlayer.play();
         let myInterval = setInterval(()=>{
             if(isMounted.current) getInfo();
@@ -168,9 +207,7 @@ function MusicPlayer() {
                             source={require('../../assets/shuffle.png')}>
                         </ImageBackground>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={async () => {
-                        const curr = await TrackPlayer.getCurrentTrack();
-                        if(curr>=1) TrackPlayer.skipToPrevious() }}>
+                    <TouchableOpacity onPress={() => TrackPlayer.skipToPrevious()}>
                         <ImageBackground
                             style={styles.SongOptionBackward}
                             source={require('../../assets/backward.png')}>
@@ -191,10 +228,7 @@ function MusicPlayer() {
                             </ImageBackground>
                         </TouchableOpacity>
                     }
-                    <TouchableOpacity onPress={async () => {
-                        const len = await TrackPlayer.getQueue();
-                        const curr = await TrackPlayer.getCurrentTrack();
-                        if(len.length >= curr) TrackPlayer.skipToNext()}}>
+                    <TouchableOpacity onPress={() => TrackPlayer.skipToNext()}>
                         <ImageBackground
                             style={styles.SongOptionForward}
                             source={require('../../assets/forward.png')}>
