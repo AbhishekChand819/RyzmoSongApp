@@ -23,8 +23,8 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     lineHeight: 29,
     color: '#FFFFFF',
-    alignItems: 'center',
     paddingTop: 10,
+    // backgroundColor:"pink"
   },
   labelSubText:{
     fontFamily: 'Montserrat-SemiBold',
@@ -55,8 +55,6 @@ export const styles = StyleSheet.create({
   imgPlayBtn:{
     width: 59,
     height: 59,
-    marginTop: 5,
-    marginLeft:"auto"
   }
 });
 

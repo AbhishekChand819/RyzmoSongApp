@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";  
 import React,{useState} from 'react';
-import {NativeRouter, Route} from 'react-router-native';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 import SplashScreen from './components/SplashScreen';
@@ -10,6 +9,7 @@ import Playlist from './components/Playlist'
 import MusicPlayer from './components/MusicPlayer';
 import Signup from "./components/Signup";
 import Login from "./components/Login"
+import Library from "./components/Library"
 
 import TrackPlayer from 'react-native-track-player';
 import { useEffect } from 'react';
@@ -38,6 +38,7 @@ export default function App() {
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Playlist" component={Playlist} />
         <Stack.Screen name="Music Player" component={MusicPlayer} />
+        <Stack.Screen name="Library" component={Library} />
       </Stack.Navigator>
     </NavigationContainer>
   );

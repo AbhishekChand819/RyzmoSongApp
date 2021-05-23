@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet,Dimensions} from 'react-native';
+
+var {width,height} = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
   wrapper: {
@@ -11,25 +13,35 @@ export const styles = StyleSheet.create({
     backgroundColor: '#1B0536',
     marginLeft:30,
     marginRight:30,
-    height:"100%"
+    height:"100%",
+    maxHeight:Dimensions.get('window').height,
   },
-  closeButton:{
+  queueHeader:{
     display:"flex",
     flexDirection:"row",
-    marginLeft:"auto",
-    justifyContent:"space-evenly",
-    width:"30%",
+    justifyContent:"space-between",
+    alignItems:"center",
+    marginTop:15,
+    marginBottom:20,
+  },
+  dividerQueue:{
+    backgroundColor:"white",
+    height:2,
     borderRadius:10,
-    marginTop:30,
-    marginBottom:30,
-    paddingVertical:2,
+    marginTop:7,
+    width:"105%"
+  },
+  closeButton:{
+    borderRadius:10,
+    padding:14,
+    paddingTop:5,
     backgroundColor:"rgba(87, 19, 171, 0.6)"
   },
   closeButtonText:{
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 18,
+    fontSize: 23,
     color: '#FFFFFF',
-    marginBottom:4
+    textTransform:"capitalize"
   },
   QueueClose:{
     width:12,
@@ -49,10 +61,11 @@ export const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 28,
     color: '#FFFFFF',
-    marginLeft:40,
-    marginRight:40,
+    marginLeft:30,
+    marginRight:30,
     marginTop:20,
     textAlign:"center",
+    width:"84%"
   },
   SongArtist:{
     fontFamily: 'Montserrat-SemiBold',

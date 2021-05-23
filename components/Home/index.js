@@ -56,6 +56,7 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
                     ['rgba(255, 255, 255, 0)', '#00FFA3'] 
                   }type="home"
                   navigation={navigation}
+                  subtext={"30 Songs"}
                 />
               </TouchableOpacity>
             ); 
@@ -79,6 +80,7 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
                     ['rgba(255, 255, 255, 0)', '#00FFA3'] 
                   }type="home"
                   navigation={navigation}
+                  subtext={"30 Songs"}
                 />
               </TouchableOpacity>
             );
@@ -122,6 +124,7 @@ function HomeSection({ heading, songs, navigateTo, endpoint }) {
                   }
                   type="home"
                   navigation={navigation} 
+                  subtext={endpoint==="playlist" || endpoint==="artist" ?"30 Songs" : track_artist}
                 />
               </TouchableOpacity>
             );

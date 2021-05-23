@@ -45,7 +45,7 @@ function Playlist() {
                                 <Text style={styles.labelSubText}>102 Hours</Text>
                             </View>
                         </View>
-                        <TouchableOpacity onPress={() => {
+                        <TouchableOpacity style={{marginTop: 5,marginLeft:"auto"}} onPress={() => {
                             if(songs.length > 0) {
                                 navigation.push('Music Player', {
                                     id: songs[0].track_id,

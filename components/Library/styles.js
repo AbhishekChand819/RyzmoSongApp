@@ -9,10 +9,9 @@ export const styles = StyleSheet.create({
   heading: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 26,
-    lineHeight: 25,
     color: '#FFFFFF',
     marginBottom: 15,
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 20,
   },
   SearchIcon:{
@@ -46,11 +45,10 @@ export const styles = StyleSheet.create({
     display:"flex",
     flexDirection:"row",
     flexWrap: 'wrap',
-    marginTop:20,
     marginLeft: 20,
   },
   pillBoxActive:{
-    width:90,
+    paddingHorizontal:15,
     height:35,
     marginRight:15,
     backgroundColor:"#EE008F",
@@ -59,7 +57,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pillBoxInActive:{
-    width:80,
+    paddingHorizontal:15,
     height:35,
     marginRight:15,
     borderWidth:2,

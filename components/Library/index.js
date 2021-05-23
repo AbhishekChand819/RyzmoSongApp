@@ -4,23 +4,16 @@ import {styles} from './styles';
 import AppNavigator from '../Navbar';
 import search from '../../assets/search1.png';
 import TrackLabel from '../shared/TrackLabel';
+import { useNavigation } from '@react-navigation/native';
 
 function Library() {
+  const navigation = useNavigation();
+
   return (
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
       <ScrollView style={styles.wrapper}>
         <Text style={styles.heading}>Library</Text>
-        <Image
-          style={styles.SearchIcon}
-          source={search}
-        />
-        <TextInput
-          style={styles.SearchInput}
-          placeholder="Search in Playlist..."
-          placeholderTextColor="#E9D5E1"
-          >
-        </TextInput>
         <View style={styles.pillsContainer}>
             <View style={styles.pillBoxActive}>
                 <Text style={styles.pillText}>Playlist</Text>
@@ -29,14 +22,15 @@ function Library() {
                 <Text style={styles.pillText}>Artists</Text>
             </View>
             <View style={styles.pillBoxInActive}>
-                <Text style={styles.pillText}>Albums</Text>
+                <Text style={styles.pillText}>Languages</Text>
             </View>
         </View>
         <View style={styles.LibraryContainer}>
             <TrackLabel
-                text="Create a playlist"
-                image={require('../../assets/plus.png')}
-                type='create'></TrackLabel>
+                text="Liked Songs"
+                image={require('../../assets/likedPlaylist.png')}
+                gradient={['rgba(238, 0, 143, 0)', '#EE008F']}
+                type='library'></TrackLabel>
             <TrackLabel
                 text="Dua Lipa"
                 image={require('../../assets/dualipa.png')}
@@ -64,7 +58,7 @@ function Library() {
                 type='library'></TrackLabel>
         </View>
       </ScrollView>
-      <AppNavigator></AppNavigator>
+      <AppNavigator navigation={navigation}></AppNavigator>
     </React.Fragment>
   );
 }

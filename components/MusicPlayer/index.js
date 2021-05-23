@@ -85,7 +85,7 @@ function MusicPlayer() {
         TrackPlayer.updateOptions({
             stopWithApp: true,
         });
-        TrackPlayer.reset();
+        await TrackPlayer.reset();
         await TrackPlayer.add({
             id: route.params.id,
             url: route.params.url,
@@ -160,17 +160,24 @@ function MusicPlayer() {
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={() => null}>
-                    <View style={styles.queueWrapper}>
-                        <TouchableOpacity onPress={() => {setModalVisible(false)}}>
-                            <View style={styles.closeButton}>
-                                <Text style={styles.closeButtonText}>Close</Text>
-                                <ImageBackground
-                                    style={styles.QueueClose}
-                                    source={require('../../assets/close.png')}>
-                                </ImageBackground>
+                    <ScrollView style={styles.queueWrapper}
+                             overScrollMode="never"
+                            showsHorizontalScrollIndicator={false}>
+                        <View style={styles.queueHeader}>
+                            <View style={{display:"flex",flexDirection:"column"}}>
+                                <Text style={styles.closeButtonText}>Play Queue</Text>
+                                <View style={styles.dividerQueue}></View>
                             </View>
-                        </TouchableOpacity>
-                        {songQueue.length < 1 ? [1,2,3,4,5,6,7,8,9,10,11,12].map((index)=>
+                            <TouchableOpacity onPress={() => {setModalVisible(false)}}>
+                                <View style={styles.closeButton}>
+                                    <ImageBackground
+                                        style={styles.QueueClose}
+                                        source={require('../../assets/close.png')}>
+                                    </ImageBackground>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        {songQueue.length < 1 ? [1,2,3,4,5,6,7,8,9,10].map((index)=>
                             <SkeletonPlaceholder key={index} speed={2000} backgroundColor='#6425B1' highlightColor="#B62EAD">
                                 <View style={{display:"flex",flexDirection:'row',marginBottom:10}}>
                                     <View style={{ width:50,height:45}}></View>
@@ -189,9 +196,9 @@ function MusicPlayer() {
                                 url={songQ.track_preview}
                                 route='queue'/>
                         })}
-                    </View>
+                    </ScrollView>
                 </Modal>
-                <Text style={styles.SongTitle}>{songTitle}</Text>
+                <Text style={styles.SongTitle} numberOfLines={1} ellipsizeMode="tail">{songTitle}</Text>
                 <Text style={styles.SongArtist}>{songArtist}</Text>
                 <View style={styles.SongBar}>
                     <View style={[styles.SongBarFill, {width:(currentTime/30)*100 + "%"}]}></View>
