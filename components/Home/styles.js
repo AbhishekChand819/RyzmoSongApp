@@ -4,20 +4,16 @@ export const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
     backgroundColor: '#1B0536',
-    paddingLeft: 20,
-    paddingBottom: 10,
+    position: 'relative',
   },
   container: {
     flexDirection: 'row',
   },
   labelText: {
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 24,
-    lineHeight: 29,
+    fontSize: 22,
     color: '#FFFFFF',
-    alignItems: 'center',
-    marginBottom: 2,
     paddingTop: 10,
-    paddingBottom: 10,
+    marginBottom: -1,
   },
 });

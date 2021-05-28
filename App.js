@@ -1,36 +1,38 @@
-import "react-native-gesture-handler";  
-import React,{useState} from 'react';
+import 'react-native-gesture-handler';
+import React, {useEffect} from 'react';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import TrackPlayer from 'react-native-track-player';
+import {NavigationContainer} from '@react-navigation/native';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
 
 import SplashScreen from './components/SplashScreen';
 import Home from './components/Home';
 import Search from './components/Search';
-import Playlist from './components/Playlist'
+import Playlist from './components/Playlist';
 import MusicPlayer from './components/MusicPlayer';
-import Signup from "./components/Signup";
-import Login from "./components/Login"
-import Library from "./components/Library"
-
-import TrackPlayer from 'react-native-track-player';
-import { useEffect } from 'react';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { CardStyleInterpolators,createStackNavigator } from '@react-navigation/stack';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Library from './components/Library';
 
 const Stack = createStackNavigator();
 
-
 export default function App() {
-  const [currentRoute,setcurrentRoute] = useState('/');
   changeNavigationBarColor('#1B0536');
-  const [songs, setSongs] = useState([]);
-      useEffect(async () => {
-         TrackPlayer.setupPlayer({}).then(async () => {}) 
-    }, []);
-  
+  useEffect(async () => {
+    TrackPlayer.setupPlayer({}).then(async () => {});
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}>
+      <Stack.Navigator
+        initialRouteName="SplashScreen"
+        screenOptions={{
+          headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}>
         <Stack.Screen name="Register" component={Signup} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
