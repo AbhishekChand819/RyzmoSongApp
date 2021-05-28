@@ -3,13 +3,13 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-    marginRight: 20,
+    marginRight: 12,
     marginTop: 15,
   },
   linearGradient: {
     width: '100%',
     height: 150,
-    opacity: 0.75,
+    opacity: 0.3,
     borderRadius: 10,
   },
   imgBackground: {
@@ -30,13 +30,13 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 11,
   },
-  createContainer:{
+  createContainer: {
     width: 160,
     height: 120,
-    borderWidth:1.5,
+    borderWidth: 1.5,
     borderRadius: 10,
-    borderStyle:"dashed",
-    borderColor:"#EDEDED",
+    borderStyle: 'dashed',
+    borderColor: '#EDEDED',
     marginRight: 20,
     marginTop: 15,
     marginBottom: 11,
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 10,
-    alignContent:"center"
+    alignContent: 'center',
   },
   titleText: {
     fontFamily: 'Montserrat-SemiBold',
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
     alignItems: 'center',
     marginBottom: 2,
-    width:160
+    width: 160,
   },
   labelText: {
     fontFamily: 'Montserrat-SemiBold',
