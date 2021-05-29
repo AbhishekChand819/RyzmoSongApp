@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity, StatusBar} from 'react-native';
 import {styles} from './styles';
 import AppNavigator from '../Navbar';
 import TrackLabel from '../shared/TrackLabel';
