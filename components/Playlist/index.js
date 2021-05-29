@@ -16,15 +16,28 @@ import {useEffect} from 'react';
 import {useState} from 'react';
 import {url} from '../../constants';
 import {useRoute} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 function Playlist() {
   const navigation = useNavigation();
   const [songs, setSongs] = useState([]);
   const route = useRoute();
   useEffect(async () => {
-    let response = await fetch(`${url}${route.params.endpoint}`);
-    response = await response.json();
-    setSongs(response);
+    if(route.params.endpoint == "likedsongs"){
+      const keys = await AsyncStorage.getAllKeys();
+      let songs = await AsyncStorage.multiGet(keys);
+      songs = songs.map(song => {
+        song = {...JSON.parse(song[1]), track_id: song[0]};
+        return song;
+      });
+      setSongs(songs);
+      console.log(songs)
+    } else {
+      let response = await fetch(`${url}${route.params.endpoint}`);
+      response = await response.json(); 
+      setSongs(response);
+    }
   }, []);
 
   return (
@@ -62,10 +75,7 @@ function Playlist() {
                     id: songs[0].track_id,
                     title: songs[0].track_name,
                     artists: songs[0].track_artist,
-                    image:
-                      songs[0].artist_image.length > 1
-                        ? {uri: songs[0].artist_image}
-                        : require('../../assets/album5.jpg'),
+                    image: songs[0].artist_image,
                     url: songs[0].track_preview,
                     playlist: songs,
                   });
@@ -122,14 +132,11 @@ function Playlist() {
                     key={song.track_id}
                     id={song.track_id}
                     title={song.track_name}
-                    image={
-                      song.artist_image.length > 1
-                        ? {uri: song.artist_image}
-                        : require('../../assets/album5.jpg')
-                    }
+                    image={song.artist_image}
                     artists={song.track_artist}
                     url={song.track_preview}
                     playlist={songs}
+                    isLikedPlaylist={route.params.endpoint == "likedsongs"}
                   />
                 );
               })}

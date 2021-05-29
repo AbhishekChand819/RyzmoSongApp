@@ -73,6 +73,7 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                     <TrackLabel
                       text={song.toUpperCase()}
                       image={genreImages[song]}
+                      offlineLabel
                       gradient={
                         index % 4 == 3
                           ? ['rgba(238, 255, 255, 0)', '#0137C7']
@@ -103,6 +104,7 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                     <TrackLabel
                       text={displayName}
                       image={img}
+                      offlineLabel
                       gradient={
                         index % 4 == 2
                           ? ['rgba(238, 255, 255, 0)', '#0137C7']
@@ -120,6 +122,7 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                 );
               } else {
                 let {
+                  track_id,
                   track_name,
                   track_preview,
                   track_artist,
@@ -143,21 +146,16 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                         navigateTo,
                         navigateTo === 'Music Player'
                           ? {
+                              id: track_id,
                               title: track_name,
                               artists: track_artist,
-                              image:
-                                artist_image.length > 1
-                                  ? {uri: artist_image}
-                                  : require('../../assets/album5.jpg'),
+                              image: artist_image,
                               url: track_preview,
                             }
                           : {
                               title: track_artist,
                               endpoint: `/${endpoint}/${track_artist}`,
-                              img:
-                                artist_image.length > 1
-                                  ? {uri: artist_image}
-                                  : require('../../assets/album5.jpg'),
+                              img: artist_image,
                             },
                       );
                     }}>
@@ -167,11 +165,7 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                           ? track_name
                           : track_artist
                       }
-                      image={
-                        artist_image.length > 1
-                          ? {uri: artist_image}
-                          : require('../../assets/album5.jpg')
-                      }
+                      image={artist_image}
                       gradient={
                         heading == 'Trending Songs'
                           ? index % 4 == 1

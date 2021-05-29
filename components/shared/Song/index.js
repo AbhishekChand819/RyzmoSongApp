@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect} from 'react';
 
-function Song({id, title, image, artists, icon, url, route, playlist}) {
+function Song({id, title, image, artists, icon, url, route, playlist, isLikedPlaylist}) {
   const [like, setLike] = useState(false);
 
   useEffect(async () => {
@@ -20,7 +20,7 @@ function Song({id, title, image, artists, icon, url, route, playlist}) {
         <View style={styles.subSongContainer}>
           <ImageBackground
             style={styles.imgSong}
-            source={image}></ImageBackground>
+            source={{uri: image}}></ImageBackground>
           <View style={styles.subLabelContainer}>
             <Text
               numberOfLines={1}
@@ -57,6 +57,7 @@ function Song({id, title, image, artists, icon, url, route, playlist}) {
                 image,
                 url,
                 playlist,
+                isLikedPlaylist
               });
             } else
               navigation.push('Music Player', {
@@ -66,11 +67,14 @@ function Song({id, title, image, artists, icon, url, route, playlist}) {
                 image,
                 url,
                 playlist,
+                isLikedPlaylist
               });
           }}>
           <ImageBackground
             style={styles.imgSong}
-            source={image}></ImageBackground>
+            source={image.length > 1 ? 
+              {uri: image} : 
+              require('../../../assets/album5.jpg')}></ImageBackground>
           <View style={styles.subLabelContainer}>
             <Text
               numberOfLines={1}
@@ -88,10 +92,10 @@ function Song({id, title, image, artists, icon, url, route, playlist}) {
                 await AsyncStorage.setItem(
                   id,
                   JSON.stringify({
-                    title,
-                    artists,
-                    image,
-                    url,
+                    track_name:title,
+                    track_artist:artists,
+                    artist_image:image,
+                    track_preview:url,
                   }),
                 );
               } else {

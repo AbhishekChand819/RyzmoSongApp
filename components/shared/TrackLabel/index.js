@@ -3,12 +3,17 @@ import {View, ImageBackground, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {styles} from './styles';
 
-function TrackLabel({text, image, gradient, subtext}) {
+function TrackLabel({text, image, gradient, subtext, offlineLabel}) {
   return (
     <View style={styles.container}>
       <ImageBackground
         style={styles.imgBackground}
-        source={image}
+        source={
+          offlineLabel ? image : 
+            image.length > 1 ? 
+              {uri: image} : 
+              require('../../../assets/album5.jpg')
+        }
         imageStyle={{borderRadius: 10}}>
         <LinearGradient
           colors={gradient}

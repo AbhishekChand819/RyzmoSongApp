@@ -16,6 +16,10 @@ import MusicPlayer from './components/MusicPlayer';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Library from './components/Library';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 
 const Stack = createStackNavigator();
 

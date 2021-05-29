@@ -58,8 +58,8 @@ function MusicPlayer() {
     const queue = await TrackPlayer.getQueue();
     const shuffledQueue = shuffleArray(queue);
     setSongQueue(shuffledQueue);
-    await TrackPlayer.destroy();
-    await TrackPlayer.setupPlayer();
+    TrackPlayer.destroy();
+    await TrackPlayer.setupPlayer({}).then(async () => {});
     await TrackPlayer.add(shuffledQueue);
     await TrackPlayer.play();
   };
@@ -75,7 +75,8 @@ function MusicPlayer() {
             url: song.track_preview,
             title: song.track_name,
             artist: song.track_artist,
-            artwork: {uri: song.artist_image},
+            // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
+            artwork: song.artist_image,
           });
         }
       });
@@ -86,6 +87,14 @@ function MusicPlayer() {
     const listener = TrackPlayer.addEventListener(
       'playback-track-changed',
       async data => {
+        if(loop){
+          const track = await TrackPlayer.getTrack(data.track);
+          setSongTitle(track.title);
+          setSongArtist(track.artist);
+          setSongImg(track.artwork);
+          return;
+        }
+
         const track = await TrackPlayer.getTrack(data.nextTrack);
         if (track) {
           setSongTitle(track.title);
@@ -96,16 +105,27 @@ function MusicPlayer() {
     );
     TrackPlayer.updateOptions({
       stopWithApp: true,
+      // capabilities: [
+      //   TrackPlayer.CAPABILITY_PLAY,
+      //   TrackPlayer.CAPABILITY_PAUSE,
+      //   TrackPlayer.CAPABILITY_STOP,
+      // ],
+      // compactCapabilities: [
+      //   TrackPlayer.CAPABILITY_PLAY,
+      //   TrackPlayer.CAPABILITY_PAUSE,
+      //   TrackPlayer.CAPABILITY_STOP,
+      // ]
     });
+
     await TrackPlayer.reset();
     await TrackPlayer.add({
       id: route.params.id,
       url: route.params.url,
       title: route.params.title,
       artist: route.params.artists,
-      artwork: route.params.image,
+      // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
+      artwork: `${route.params.image}`,
     });
-
     const liked = await AsyncStorage.getItem(route.params.id);
     setLike(liked !== null);
 
@@ -129,7 +149,8 @@ function MusicPlayer() {
             url: song.track_preview,
             title: song.track_name,
             artist: song.track_artist,
-            artwork: {uri: song.artist_image},
+            // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
+            artwork: song.artist_image,
           });
         } else {
           // adding songs before the current playing track
@@ -139,7 +160,8 @@ function MusicPlayer() {
               url: song.track_preview,
               title: song.track_name,
               artist: song.track_artist,
-              artwork: {uri: song.artist_image},
+              // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
+              artwork: song.artist_image,
             },
             currentSongId,
           );
@@ -170,7 +192,7 @@ function MusicPlayer() {
         <View style={styles.imageWrapper}>
           <ImageBackground
             style={styles.imgBackground}
-            source={songImg}
+            source={{uri: songImg}}
             key={songTitle}
             imageStyle={{borderRadius: 200}}
           />
@@ -241,13 +263,10 @@ function MusicPlayer() {
               : songQueue.map(songQ => {
                   return (
                     <Song
+                      id={songQ.track_id}
                       key={songQ.track_id}
                       title={songQ.track_name}
-                      image={
-                        songQ.artist_image.length > 1
-                          ? {uri: songQ.artist_image}
-                          : require('../../assets/album5.jpg')
-                      }
+                      image={songQ.artist_image}
                       artists={songQ.track_artist}
                       url={songQ.track_preview}
                       route="queue"
@@ -274,7 +293,7 @@ function MusicPlayer() {
           <Text style={styles.SongEndTime}>0:30</Text>
         </View>
         <View style={styles.SongOptionPanel}>
-          <TouchableOpacity onPress={() => console.log('shuffle songs')}>
+          <TouchableOpacity onPress={shuffle}>
             <ImageBackground
               style={styles.SongOptionShuffle}
               source={require('../../assets/shuffle.png')}></ImageBackground>
@@ -335,10 +354,10 @@ function MusicPlayer() {
                 await AsyncStorage.setItem(
                   route.params.id,
                   JSON.stringify({
-                    title: route.params.title,
-                    artists: route.params.artists,
-                    image: route.params.image,
-                    url: route.params.url,
+                    track_name: route.params.title,
+                    track_artist: route.params.artists,
+                    artist_image: route.params.image,
+                    track_preview: route.params.url,
                   }),
                 );
               } else {

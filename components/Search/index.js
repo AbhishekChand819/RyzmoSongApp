@@ -61,11 +61,7 @@ function Search({navigation}) {
               <Song
                 key={song.track_id}
                 title={song.track_name}
-                image={
-                  song.artist_image.length > 1
-                    ? {uri: song.artist_image}
-                    : require('../../assets/album5.jpg')
-                }
+                image={song.artist_image}
                 artists={song.track_artist}
                 url={song.track_preview}
               />
