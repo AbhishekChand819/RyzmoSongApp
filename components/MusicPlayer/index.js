@@ -12,13 +12,17 @@ import {
 } from 'react-native';
 import {styles} from './styles';
 import Song from '../shared/Song';
-import {url} from '../../constants';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {url, notificationImage} from '../../constants';
 
 import TrackPlayer from 'react-native-track-player';
-
+import { useTrackPlayerEvents, TrackPlayerEvents, STATE_PLAYING } from 'react-native-track-player';
 import {useState, useRef} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const events = [
+  TrackPlayerEvents.REMOTE_PAUSE,
+  TrackPlayerEvents.REMOTE_PLAY
+];
 
 function MusicPlayer() {
   const [isPlaying, setisPlaying] = useState(true);
@@ -30,6 +34,15 @@ function MusicPlayer() {
   const [songQueue, setSongQueue] = useState([]);
   const [loop, setLoop] = useState(false);
   const [like, setLike] = useState(false);
+
+  useTrackPlayerEvents(events, (event) => {
+    if (event.type === TrackPlayerEvents.REMOTE_PLAY) {
+      setisPlaying(true);
+    }
+    if (event.type === TrackPlayerEvents.REMOTE_PAUSE) {
+      setisPlaying(false);
+    }
+  });
 
   const route = useRoute();
   const isMounted = useRef(false);
@@ -75,8 +88,8 @@ function MusicPlayer() {
             url: song.track_preview,
             title: song.track_name,
             artist: song.track_artist,
-            // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
-            artwork: song.artist_image,
+            artwork: notificationImage,
+            artist_image: song.artist_image,
           });
         }
       });
@@ -91,7 +104,7 @@ function MusicPlayer() {
           const track = await TrackPlayer.getTrack(data.track);
           setSongTitle(track.title);
           setSongArtist(track.artist);
-          setSongImg(track.artwork);
+          setSongImg(track.artist_image);
           return;
         }
 
@@ -99,82 +112,85 @@ function MusicPlayer() {
         if (track) {
           setSongTitle(track.title);
           setSongArtist(track.artist);
-          setSongImg(track.artwork);
+          setSongImg(track.artist_image);
         }
       },
     );
+
     TrackPlayer.updateOptions({
       stopWithApp: true,
-      // capabilities: [
-      //   TrackPlayer.CAPABILITY_PLAY,
-      //   TrackPlayer.CAPABILITY_PAUSE,
-      //   TrackPlayer.CAPABILITY_STOP,
-      // ],
-      // compactCapabilities: [
-      //   TrackPlayer.CAPABILITY_PLAY,
-      //   TrackPlayer.CAPABILITY_PAUSE,
-      //   TrackPlayer.CAPABILITY_STOP,
-      // ]
+      notificationCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+      ],
+      capabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+      ],
+      compactCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+        TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+      ]
     });
 
     await TrackPlayer.reset();
-    await TrackPlayer.add({
-      id: route.params.id,
-      url: route.params.url,
-      title: route.params.title,
-      artist: route.params.artists,
-      // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
-      artwork: `${route.params.image}`,
-    });
+    if(!route.params.playlist){
+      await TrackPlayer.add({
+        id: route.params.id,
+        url: route.params.url,
+        title: route.params.title,
+        artist: route.params.artists,
+        artwork: notificationImage,
+        artist_image: route.params.image
+      });
+    }
     const liked = await AsyncStorage.getItem(route.params.id);
     setLike(liked !== null);
 
     const currentSongId = route.params.id;
     if (route.params.playlist) {
-      let flag = false;
-      const queue = [];
-      route.params.playlist.map(async song => {
-        if (!song.track_preview) return;
-
-        queue.push(song);
-        if (song.track_id === currentSongId) {
-          flag = true;
-          return;
+      const newPlaylist = route.params.playlist.songs.filter(song => song.track_preview.length > 1);
+      const newQueue = newPlaylist.map(song => {
+        return {
+          id: song.track_id,
+          url: song.track_preview,
+          title: song.track_name,
+          artist: song.track_artist,
+          artwork: notificationImage,
+          artist_image: song.artist_image
         }
+      })
+      await TrackPlayer.reset();
+      await TrackPlayer.add(newQueue);
+      await TrackPlayer.skip(currentSongId);
 
-        if (flag) {
-          // now we are ahead of the current track
-          await TrackPlayer.add({
-            id: song.track_id,
-            url: song.track_preview,
-            title: song.track_name,
-            artist: song.track_artist,
-            // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
-            artwork: song.artist_image,
-          });
-        } else {
-          // adding songs before the current playing track
-          await TrackPlayer.add(
-            {
-              id: song.track_id,
-              url: song.track_preview,
-              title: song.track_name,
-              artist: song.track_artist,
-              // artwork:"https://cdns-images.dzcdn.net/images/artist/7c2c34b3ed496bcb8dbf41f23949beb2/500x500-000000-80-0-0.jpg"
-              artwork: song.artist_image,
-            },
-            currentSongId,
-          );
-        }
-      });
-
-      setSongQueue(queue);
+      setSongQueue(newPlaylist);
     }
 
     TrackPlayer.play();
     let myInterval = setInterval(() => {
       if (isMounted.current) getInfo();
     }, 1000);
+
+    const user_id = await AsyncStorage.getItem('user_id')
+    await fetch(`${url}/record`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id,
+        track_id: route.params.id
+      })
+    });
+
     return () => {
       isMounted.current = false;
       clearInterval(myInterval);
@@ -208,7 +224,7 @@ function MusicPlayer() {
             showsHorizontalScrollIndicator={false}>
             <View style={styles.queueHeader}>
               <View style={{display: 'flex', flexDirection: 'column'}}>
-                <Text style={styles.closeButtonText}>Play Queue</Text>
+                <Text style={styles.closeButtonText}>{route.params.playlist ? `Playing from: ${route.params.playlist.name}` : `Recommended For You`}</Text>
                 <View style={styles.dividerQueue}></View>
               </View>
               <TouchableOpacity
@@ -224,41 +240,39 @@ function MusicPlayer() {
             </View>
             {songQueue.length < 1
               ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => (
-                  <SkeletonPlaceholder
-                    key={index}
-                    speed={2000}
-                    backgroundColor="#6425B1"
-                    highlightColor="#B62EAD">
-                    <View
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        marginBottom: 10,
-                      }}>
-                      <View style={{width: 50, height: 45}}></View>
-                      <View
-                        style={{
-                          display: 'flex',
-                          width: '80%',
-                          flexDirection: 'column',
-                          marginLeft: 15,
-                        }}>
-                        <View
-                          style={{
-                            display: 'flex',
-                            height: 17,
-                            marginTop: 6,
-                          }}></View>
-                        <View
-                          style={{
-                            display: 'flex',
-                            width: '30%',
-                            height: 12,
-                            marginTop: 5,
-                          }}></View>
-                      </View>
-                    </View>
-                  </SkeletonPlaceholder>
+                <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginBottom: 10,
+                }}>
+                <View style={{width: 50, height: 45, backgroundColor: "#6425B1", opacity: 0.5}}></View>
+                <View
+                  style={{
+                    display: 'flex',
+                    width: '80%',
+                    flexDirection: 'column',
+                    marginLeft: 15
+                  }}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      height: 17,
+                      marginTop: 6,
+                      backgroundColor: "#6425B1",
+                      opacity: 0.5
+                    }}></View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      width: '30%',
+                      height: 12,
+                      marginTop: 5,
+                      backgroundColor: "#6425B1",
+                      opacity: 0.5
+                    }}></View>
+                </View>
+              </View>
                 ))
               : songQueue.map(songQ => {
                   return (

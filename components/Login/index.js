@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View,Image,Text,TextInput,TouchableHighlight,TouchableOpacity } from 'react-native';
 import logo from '../../assets/logo.png';
 import contact from '../../assets/contact.png';
@@ -72,7 +72,7 @@ function Login () {
           <Text style={styles.SignInButtonText}>Sign In</Text>
         </TouchableHighlight> 
         <View style={styles.labelText2}>
-            <TouchableOpacity onPress={()=> navigation.push('Register')}>   
+            <TouchableOpacity onPress={() => navigation.push('Register')}>   
               <Text style={{color: "#FFFFFF"}}>Don’t have an account?  
                   <Text style={{color: "#EE008F"}}> Sign Up</Text>
               </Text>  

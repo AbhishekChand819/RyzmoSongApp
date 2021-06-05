@@ -74,7 +74,7 @@ function CreatePlaylist() {
             </View>
         </View>
       </ScrollView>
-      <AppNavigator></AppNavigator>
+      <AppNavigator activeRoute=''></AppNavigator>
     </React.Fragment>
   );
 }

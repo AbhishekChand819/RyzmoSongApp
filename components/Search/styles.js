@@ -16,6 +16,14 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 20,
   },
+  noResultsFound: {
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginBottom: 15,
+    alignSelf:"center",
+    marginTop: 10,
+  },
   SearchIcon:{
     position: "absolute",
     width: 23,

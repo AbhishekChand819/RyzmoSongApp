@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   },
   closeButtonText:{
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 23,
+    fontSize: 20,
     color: '#FFFFFF',
     textTransform:"capitalize"
   },

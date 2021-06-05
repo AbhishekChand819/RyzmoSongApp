@@ -4,33 +4,39 @@ import BottomNavigation, {
 } from 'react-native-material-bottom-navigation';
 import {Image, StatusBar} from 'react-native';
 import {styles} from './styles';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function Navbar({navigation}) {
+function Navbar({ activeRoute }) {
+  const navigation = useNavigation();
   const tabs = [
     {
       key: 'Home',
       icon: require('../../assets/Vector.png'),
       label: 'Home',
-      barColor: '#000000',
+      barColor: 'rgba(0,0,0,0.5)',
     },
     {
       key: 'Search',
       icon: require('../../assets/Search.png'),
       label: 'Search',
+      barColor: 'rgba(0,0,0,0.5)',
     },
     {
       key: 'Library',
       icon: require('../../assets/Library.png'),
       label: 'Saved',
+      barColor: 'rgba(0,0,0,0.5)',
     },
     {
       key: 'Logout',
       icon: require('../../assets/Gear.png'),
       label: 'Logout',
+      barColor: 'rgba(0,0,0,0.5)',
     },
   ];
 
-  const [activeTab, setActiveTab] = useState('Home');
+  const [activeTab, setActiveTab] = useState(activeRoute);
 
   const renderIcon = icon => ({isActive}) => (
     <Image style={styles.banner} source={icon} />
@@ -59,7 +65,18 @@ function Navbar({navigation}) {
         backgroundColor: '#1B0536',
       }}
       activeTab={activeTab}
-      onTabPress={newTab => {
+      onTabPress={async newTab => {
+        if(newTab.key === activeRoute) return;
+
+        if(newTab.key === 'Logout') {
+          await AsyncStorage.removeItem('user_id');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'About'}],
+          });
+          return;
+        }
+
         navigation.push(newTab.key);
         setActiveTab(newTab.key);
       }}

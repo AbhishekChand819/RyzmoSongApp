@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {styles} from './styles';
-import AppNavigator from '../Navbar';
 import LinearGradient from 'react-native-linear-gradient';
 import Song from '../shared/Song';
 import {useNavigation} from '@react-navigation/native';
@@ -48,8 +47,12 @@ function Playlist() {
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}>
         <ImageBackground
+              style={styles.imgHeart}
+              source={require('../../assets/heartfill.png')}>
+        </ImageBackground>
+        <ImageBackground
           style={styles.imgBackground}
-          source={route.params.img}
+          source={{uri: route.params.img}}
           imageStyle={{
             borderBottomLeftRadius: 40,
             borderBottomRightRadius: 40,
@@ -77,7 +80,7 @@ function Playlist() {
                     artists: songs[0].track_artist,
                     image: songs[0].artist_image,
                     url: songs[0].track_preview,
-                    playlist: songs,
+                    playlist: {name: route.params.title, songs},
                   });
                 }
               }}>
@@ -135,14 +138,11 @@ function Playlist() {
                     image={song.artist_image}
                     artists={song.track_artist}
                     url={song.track_preview}
-                    playlist={songs}
-                    isLikedPlaylist={route.params.endpoint == "likedsongs"}
                   />
                 );
               })}
         </View>
       </ScrollView>
-      <AppNavigator navigation={navigation}></AppNavigator>
     </React.Fragment>
   );
 }

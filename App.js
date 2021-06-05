@@ -16,6 +16,7 @@ import MusicPlayer from './components/MusicPlayer';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Library from './components/Library';
+import About from './components/About';
 import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs(['Warning: ...']);
@@ -27,12 +28,13 @@ export default function App() {
   changeNavigationBarColor('#1B0536');
   useEffect(async () => {
     TrackPlayer.setupPlayer({}).then(async () => {});
+    TrackPlayer.registerPlaybackService(() => require('./service'));
   }, []);
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SplashScreen"
+        initialRouteName="About"
         screenOptions={{
           headerShown: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -45,6 +47,7 @@ export default function App() {
         <Stack.Screen name="Playlist" component={Playlist} />
         <Stack.Screen name="Music Player" component={MusicPlayer} />
         <Stack.Screen name="Library" component={Library} />
+        <Stack.Screen name="About" component={About} />
       </Stack.Navigator>
     </NavigationContainer>
   );

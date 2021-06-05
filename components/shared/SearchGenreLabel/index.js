@@ -5,7 +5,7 @@ import {styles} from './styles';
 export default function GenreLabel({text, image}) {
   return (
     <View style={styles.container}>
-      <Image style={styles.banner} source={image} />
+      <Image style={styles.banner} source={{uri: image}} />
       <View style={styles.label}>
         <Text style={styles.labelText}>{text}</Text>
       </View>

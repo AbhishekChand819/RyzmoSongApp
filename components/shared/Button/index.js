@@ -1,17 +1,17 @@
 import React from 'react';
-import {Text, TouchableHighlight} from 'react-native';
+import {Text, View} from 'react-native';
 
 import {styles} from './styles';
 
 function Button({text, type, onpress}) {
   return type === 'primary' ? (
-    <TouchableHighlight style={styles.primaryButton} onPress={onpress}>
+    <View style={styles.primaryButton}>
       <Text style={styles.primaryText}>{text}</Text>
-    </TouchableHighlight>
+    </View>
   ) : (
-    <TouchableHighlight style={styles.secondaryButton} onPress={onpress}>
+    <View style={styles.secondaryButton}>
       <Text style={styles.secondaryText}>{text}</Text>
-    </TouchableHighlight>
+    </View>
   );
 }
 

@@ -6,6 +6,7 @@ import {
   ScrollView,
   TextInput,
   Image,
+  TouchableOpacity
 } from 'react-native';
 import {styles} from './styles';
 import AppNavigator from '../Navbar';
@@ -13,10 +14,12 @@ import search from '../../assets/search1.png';
 import GenreLabel from '../shared/SearchGenreLabel';
 import {url} from '../../constants';
 import Song from '../shared/Song';
+import { useDebouncedCallback } from 'use-debounce';
 
 function Search({navigation}) {
   const [topGenres, setTopGenres] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(async () => {
     fetch(`${url}/genres`)
@@ -24,24 +27,34 @@ function Search({navigation}) {
       .then(res => setTopGenres(res));
   }, []);
 
+  const debounced = useDebouncedCallback(
+    (value) => {
+      handleSearch(value);
+    },
+    600
+  );
+
   const handleSearch = async text => {
-    console.log(text);
     if (text.length > 0) {
+      setLoading(true);
       fetch(`${url}/search/${text}`)
         .then(res => res.json())
-        .then(res => setSearchResults(res));
+        .then(res => {
+          setSearchResults(res);
+          setLoading(false);
+        });
     } else {
-      setSearchResults([]);
+      setSearchResults(null);
     }
   };
 
   const genreImages = {
-    rock: require('../../assets/rock.png'),
-    'r&b': require('../../assets/r&b.png'),
-    pop: require('../../assets/pop.png'),
-    edm: require('../../assets/edm.png'),
-    latin: require('../../assets/latin.png'),
-    rap: require('../../assets/rap.png'),
+    rock:'https://townsquare.media/site/366/files/2021/02/gene_simmons_kiss_fans.jpg',
+    'r&b': 'https://www.liveabout.com/thmb/WJLOYVnKQ_kcpGQ3FCPZrPhivZ0=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-10305878021-5bad03d4c9e77c0025482597.jpg',
+    pop: 'https://pyxis.nymag.com/v1/imgs/7e3/e4f/a79402462e2e60f8991e7528a024706d82-12-eoy-songs.rhorizontal.w1100.jpg',
+    edm: 'https://lh3.googleusercontent.com/proxy/doDJMZT0pjUD2FOrv-lhId87x9o0fnDVFLac3EnoIhpPr4jgq2cKgbepEZ0r_lvS1M4nxXqEcraA9-_p7kwu0G6RStTHoQ3bYA',
+    latin: 'https://static.billboard.com/files/media/influential-latin-musicians-juan-gabriel-billboard-650-compressed.jpg',
+    rap: 'https://i.dailymail.co.uk/i/pix/2017/09/26/10/08F09E8D00000514-4920738-image-a-1_1506419178390.jpg',
   };
 
   return (
@@ -54,31 +67,83 @@ function Search({navigation}) {
           style={styles.SearchInput}
           placeholder="Song or Artist..."
           placeholderTextColor="#E9D5E1"
-          onChangeText={text => handleSearch(text)}></TextInput>
-        {searchResults.length > 0 ? (
+          onChangeText={(value) => debounced(value)}></TextInput>
+{loading && 
+<View style={styles.container}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => (
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginBottom: 10,
+                }}>
+                <View style={{width: 50, height: 45, backgroundColor: "#6425B1", opacity: 0.5}}></View>
+                <View
+                  style={{
+                    display: 'flex',
+                    width: '80%',
+                    flexDirection: 'column',
+                    marginLeft: 15
+                  }}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      height: 17,
+                      marginTop: 6,
+                      backgroundColor: "#6425B1",
+                      opacity: 0.5
+                    }}></View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      width: '30%',
+                      height: 12,
+                      marginTop: 5,
+                      backgroundColor: "#6425B1",
+                      opacity: 0.5
+                    }}></View>
+                </View>
+              </View>
+          ))
+        }
+</View>}
+
+        {searchResults ? (
           <View style={styles.container}>
-            {searchResults.map(song => (
+            {searchResults.length > 0 ? searchResults.map(song => (
               <Song
+                id={song.track_id}
                 key={song.track_id}
                 title={song.track_name}
                 image={song.artist_image}
                 artists={song.track_artist}
                 url={song.track_preview}
               />
-            ))}
+            )) : <View>
+              <Text style={styles.noResultsFound}>No Results Found ...</Text>
+              </View>}
           </View>
         ) : (
           <View style={styles.genreContainer}>
             {topGenres.map((genre, index) => (
+            <TouchableOpacity key={index}
+              onPress={() => {
+                navigation.push('Playlist', {
+                  title: genre.toUpperCase(),
+                  endpoint: `/genre/${genre}`,
+                  img: genreImages[genre],
+                });
+              }}>
               <GenreLabel
                 key={index}
                 text={genre.toUpperCase()}
                 image={genreImages[genre]}></GenreLabel>
+            </TouchableOpacity>
             ))}
           </View>
         )}
       </ScrollView>
-      <AppNavigator navigation={navigation}></AppNavigator>
+      <AppNavigator activeRoute='Search'></AppNavigator>
     </React.Fragment>
   );
 }

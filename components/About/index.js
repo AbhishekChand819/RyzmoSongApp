@@ -1,9 +1,23 @@
-import React from 'react';
-import {View, Text, Image, StatusBar} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, Image, StatusBar, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import Button from '../shared/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 function About() {
+  const navigation = useNavigation();
+
+  useEffect(async () => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    if(user_id) {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
+    }
+  }, [])
+
   return (
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
@@ -24,12 +38,12 @@ function About() {
         </Text>
 
         <View style={styles.buttonContainer}>
-          <View style={styles.buttonWrapper}>
+          <TouchableOpacity style={styles.buttonWrapper} onPress={() => navigation.push('Register')} activeOpacity={0.5}>
             <Button type="primary" text="Sign Up" />
-          </View>
-          <View style={styles.buttonWrapper}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonWrapper} onPress={() => navigation.push('Login')} activeOpacity={0.5}>
             <Button type="secondary" text="Login" />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </React.Fragment>

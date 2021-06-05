@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect} from 'react';
 
-function Song({id, title, image, artists, icon, url, route, playlist, isLikedPlaylist}) {
+function Song({id, title, image, artists, icon, url, route}) {
   const [like, setLike] = useState(false);
 
   useEffect(async () => {
@@ -55,9 +55,7 @@ function Song({id, title, image, artists, icon, url, route, playlist, isLikedPla
                 title,
                 artists,
                 image,
-                url,
-                playlist,
-                isLikedPlaylist
+                url
               });
             } else
               navigation.push('Music Player', {
@@ -65,9 +63,7 @@ function Song({id, title, image, artists, icon, url, route, playlist, isLikedPla
                 title,
                 artists,
                 image,
-                url,
-                playlist,
-                isLikedPlaylist
+                url
               });
           }}>
           <ImageBackground

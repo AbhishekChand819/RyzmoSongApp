@@ -55,6 +55,14 @@ export const styles = StyleSheet.create({
   imgPlayBtn:{
     width: 59,
     height: 59,
-  }
+  },
+  imgHeart: {
+    position:"absolute",
+    width: 28,
+    height: 28,
+    top:20,
+    right:20,
+    zIndex:1,
+  },
 });
 

@@ -34,14 +34,14 @@ function Library() {
                             {
                               title: "Liked Songs",
                               endpoint: `likedsongs`,
-                              img: require('../../assets/likedPlaylist.png'),
+                              img: 'https://i.imgur.com/6MTTsDh.png',
                             },
                       );
             }}>
             <TrackLabel
               text="Liked Songs"
               offlineLabel
-              image={require('../../assets/likedPlaylist.png')}
+              image='https://i.imgur.com/6MTTsDh.png'
               gradient={['rgba(238, 0, 143, 0)', '#EE008F']}
               type="library"/>
           </TouchableOpacity>
@@ -51,33 +51,9 @@ function Library() {
             image={require('../../assets/dualipa.png')}
             gradient={['rgba(238, 0, 143, 0)', '#D708F9']}
             type="library"></TrackLabel>
-          <TrackLabel
-            text="Year 2019"
-            offlineLabel
-            image={require('../../assets/arijit.png')}
-            gradient={['rgba(255, 255, 255, 0)', '#00FFA3']}
-            type="library"></TrackLabel>
-          <TrackLabel
-            text="Year 2018"
-            offlineLabel
-            image={require('../../assets/edsheeran.png')}
-            gradient={['rgba(238, 255, 255, 0)', '#0137C7']}
-            type="library"></TrackLabel>
-          <TrackLabel
-            text="JuiceWRLD"
-            offlineLabel
-            image={require('../../assets/juicewrld.png')}
-            gradient={['rgba(255, 255, 255, 0)', '#00FFA3']}
-            type="library"></TrackLabel>
-          <TrackLabel
-            text="Eminem"
-            offlineLabel
-            image={require('../../assets/eminem.png')}
-            gradient={['rgba(238, 255, 255, 0)', '#0137C7']}
-            type="library"></TrackLabel>
         </View>
       </ScrollView>
-      <AppNavigator navigation={navigation}></AppNavigator>
+      <AppNavigator activeRoute='Library'></AppNavigator>
     </React.Fragment>
   );
 }

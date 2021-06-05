@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StatusBar} from 'react-native';
 import AnimatedSplash from 'react-native-animated-splash-screen';
 
-import Home from '../Home';
+import About from '../About';
 
 function SplashScreen() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,7 +21,7 @@ function SplashScreen() {
         backgroundColor={'#1B0536'}
         logoHeight={120}
         logoWidth={120}>
-        <Home />
+        <About />
       </AnimatedSplash>
     </React.Fragment>
   );

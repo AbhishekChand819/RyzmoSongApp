@@ -41,7 +41,8 @@
     "react-router-dom": "^5.2.0",
     "react-router-native": "^5.2.0",
     "rn-bottom-drawer": "^1.4.3",
-    "rn-sliding-up-panel": "^2.4.5"
+    "rn-sliding-up-panel": "^2.4.5",
+    "use-debounce": "^6.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
