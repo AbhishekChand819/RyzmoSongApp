@@ -35,11 +35,15 @@ export const styles = StyleSheet.create({
   },
   LibraryContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent:"space-evenly",
-    marginTop:10,
-    marginLeft: 20,
+    flexDirection: 'column',
+    marginLeft:35,
+    marginRight:35
+  },
+  nolikedSongs:{
+    fontFamily: "Montserrat-SemiBold",
+    fontSize: 18,
+    color: "#FFFFFF",
+    // marginTop:10
   },
   pillsContainer:{
     display:"flex",

@@ -26,7 +26,6 @@ function About() {
           style={styles.banner}
           source={require('../../assets/home-banner.png')}
         />
-
         <Image
           style={styles.icon}
           source={require('../../assets/home-icon-2.png')}

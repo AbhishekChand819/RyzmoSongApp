@@ -9,7 +9,7 @@ function TrackLabel({text, image, gradient, subtext}) {
       <ImageBackground
         style={styles.imgBackground}
         source={
-            image.length > 1 ? 
+            image.length>1 ? 
               {uri: image} : 
               require('../../../assets/album5.jpg')
         }

@@ -17,9 +17,11 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
     rock:'https://townsquare.media/site/366/files/2021/02/gene_simmons_kiss_fans.jpg',
     'r&b': 'https://www.liveabout.com/thmb/WJLOYVnKQ_kcpGQ3FCPZrPhivZ0=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-10305878021-5bad03d4c9e77c0025482597.jpg',
     pop: 'https://pyxis.nymag.com/v1/imgs/7e3/e4f/a79402462e2e60f8991e7528a024706d82-12-eoy-songs.rhorizontal.w1100.jpg',
-    edm: 'https://lh3.googleusercontent.com/proxy/doDJMZT0pjUD2FOrv-lhId87x9o0fnDVFLac3EnoIhpPr4jgq2cKgbepEZ0r_lvS1M4nxXqEcraA9-_p7kwu0G6RStTHoQ3bYA',
+    edm: 'https://i.ytimg.com/vi/DBW-Rq4iEhQ/maxresdefault.jpg',
     latin: 'https://static.billboard.com/files/media/influential-latin-musicians-juan-gabriel-billboard-650-compressed.jpg',
     rap: 'https://i.dailymail.co.uk/i/pix/2017/09/26/10/08F09E8D00000514-4920738-image-a-1_1506419178390.jpg',
+    bollywood:'https://curlytales.com/wp-content/uploads/2017/07/bollywood-e1505475571564.jpg',
+    dance:'https://res-1.cloudinary.com/istd/image/upload/c_lfill,dpr_1,g_auto,h_416,w_792/f_auto,q_auto/v1/dance%20genre%20images/tap/tap_genre_faculty_image_3_klffoi'
   };
 
   return (
@@ -66,14 +68,14 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                     key={index}
                     onPress={() => {
                       navigation.push(navigateTo, {
-                        title: song.toUpperCase(),
-                        endpoint: `/${endpoint}/${song}`,
-                        img: genreImages[song],
+                        title: song.genre.toUpperCase(),
+                        endpoint: `/${endpoint}/${song.genre}`,
+                        img: genreImages[song.genre],
                       });
                     }}>
                     <TrackLabel
-                      text={song.toUpperCase()}
-                      image={genreImages[song]}
+                      text={song.genre.toUpperCase()}
+                      image={genreImages[song.genre]}
                       gradient={
                         index % 4 == 3
                           ? ['rgba(238, 255, 255, 0)', '#0137C7']
@@ -85,7 +87,7 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                       }
                       type="home"
                       navigation={navigation}
-                      subtext={'30 Songs'}
+                      subtext={song.count > 30 ? '30 Songs' : `${song.count} Songs`}
                     />
                   </TouchableOpacity>
                 );
@@ -131,7 +133,6 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                 if (endpoint === 'playlist') {
                   track_artist = playlist_name;
                 }
-
                 // Dhyan diya kro jab code kr rhe ho toh
                 // Yahan hum empty gaane hta rhe h
                 if (!track_preview && navigateTo === 'Music Player')
@@ -186,7 +187,7 @@ function HomeSection({heading, songs, navigateTo, endpoint}) {
                       navigation={navigation}
                       subtext={
                         endpoint === 'playlist' || endpoint === 'artist'
-                          ? '30 Songs'
+                          ? song.song_count>30 ? '30 Songs' : `${song.song_count} Songs`
                           : track_artist
                       }
                     />
@@ -287,7 +288,7 @@ function Home() {
           />
 
           <HomeSection
-            heading="Emerging Artists"
+            heading="Popular Artists"
             songs={topArtists}
             navigateTo="Playlist"
             endpoint="artist"

@@ -46,10 +46,10 @@ function Playlist() {
         style={styles.wrapper}
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}>
-        <ImageBackground
+        {/* <ImageBackground
               style={styles.imgHeart}
               source={require('../../assets/heartfill.png')}>
-        </ImageBackground>
+        </ImageBackground> */}
         <ImageBackground
           style={styles.imgBackground}
           source={{uri: route.params.img}}
@@ -66,8 +66,8 @@ function Playlist() {
             <View style={styles.playlistDetail}>
               <Text style={styles.labelText}>{route.params.title}</Text>
               <View style={styles.subTextContainer}>
-                <Text style={styles.labelSubText}>42 Songs &bull; </Text>
-                <Text style={styles.labelSubText}>102 Hours</Text>
+                <Text style={styles.labelSubText}>{songs.length} Songs &bull; </Text>
+                <Text style={styles.labelSubText}>{songs.length/2} Minutes</Text>
               </View>
             </View>
             <TouchableOpacity
