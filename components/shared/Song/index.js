@@ -83,8 +83,8 @@ function Song({id, title, image, artists, icon, url, route, isPlaying, playlistN
               ellipsizeMode="tail"
               style={styles.labelSongArtist}>
               {artists}
-              {isPlaying &&
-              <Image style={{width: 50, height:10}} source={require('../../../assets/audio.gif')}/>}
+              &nbsp;&nbsp;{isPlaying &&
+              <Image style={{width: 15, height:15}} source={require('../../../assets/audio.png')}/>}
               &nbsp;{playlistName && `(${playlistName})`}
             </Text>
           </View>
