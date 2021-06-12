@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
+import {View, Text, ImageBackground,Image, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect} from 'react';
 
-function Song({id, title, image, artists, icon, url, route}) {
+function Song({id, title, image, artists, icon, url, route, isPlaying, playlistName}) {
   const [like, setLike] = useState(false);
 
   useEffect(async () => {
@@ -78,7 +78,15 @@ function Song({id, title, image, artists, icon, url, route}) {
               style={styles.labelSongTitle}>
               {title}
             </Text>
-            <Text style={styles.labelSongArtist}>{artists}</Text>
+            <Text 
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={styles.labelSongArtist}>
+              {artists}
+              {isPlaying &&
+              <Image style={{width: 50, height:10}} source={require('../../../assets/audio.gif')}/>}
+              &nbsp;{playlistName && `(${playlistName})`}
+            </Text>
           </View>
         </TouchableOpacity>
         <View style={styles.songOption}>

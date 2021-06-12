@@ -31,8 +31,9 @@ function MusicPlayer() {
   const [songTitle, setSongTitle] = useState('');
   const [songArtist, setSongArtist] = useState('');
   const [songImg, setSongImg] = useState('');
+  const currentSongId = useRef('');
   const [songQueue, setSongQueue] = useState([]);
-  const [loop, setLoop] = useState(false);
+  const loop = useRef(false);
   const [like, setLike] = useState(false);
 
   useTrackPlayerEvents(events, (event) => {
@@ -49,6 +50,7 @@ function MusicPlayer() {
   async function getInfo() {
     let info = await TrackPlayer.getPosition();
     info = Math.floor(info);
+    if(info > 28 && loop.current) TrackPlayer.seekTo(0);
     setcurrentTime(info);
   }
   const shuffleArray = array => {
@@ -78,7 +80,7 @@ function MusicPlayer() {
   };
   useEffect(async () => {
     if (!route.params.playlist) {
-      let response = await fetch(`${url}/recommend/song/${route.params.title}`);
+      let response = await fetch(`${url}/recommend/song/${route.params.title} - ${route.params.artists}`);
       response = await response.json();
       setSongQueue(response);
       response.map(async song => {
@@ -100,16 +102,9 @@ function MusicPlayer() {
     const listener = TrackPlayer.addEventListener(
       'playback-track-changed',
       async data => {
-        if(loop){
-          const track = await TrackPlayer.getTrack(data.track);
-          setSongTitle(track.title);
-          setSongArtist(track.artist);
-          setSongImg(track.artist_image);
-          return;
-        }
-
         const track = await TrackPlayer.getTrack(data.nextTrack);
         if (track) {
+          currentSongId.current = track.id;
           setSongTitle(track.title);
           setSongArtist(track.artist);
           setSongImg(track.artist_image);
@@ -153,7 +148,7 @@ function MusicPlayer() {
     const liked = await AsyncStorage.getItem(route.params.id);
     setLike(liked !== null);
 
-    const currentSongId = route.params.id;
+    currentSongId.current = route.params.id;
     if (route.params.playlist) {
       const newPlaylist = route.params.playlist.songs.filter(song => song.track_preview.length > 1);
       const newQueue = newPlaylist.map(song => {
@@ -168,7 +163,7 @@ function MusicPlayer() {
       })
       await TrackPlayer.reset();
       await TrackPlayer.add(newQueue);
-      await TrackPlayer.skip(currentSongId);
+      await TrackPlayer.skip(currentSongId.current);
 
       setSongQueue(newPlaylist);
     }
@@ -277,6 +272,7 @@ function MusicPlayer() {
               : songQueue.map(songQ => {
                   return (
                     <Song
+                      isPlaying={currentSongId.current === songQ.track_id}
                       id={songQ.track_id}
                       key={songQ.track_id}
                       title={songQ.track_name}
@@ -343,11 +339,11 @@ function MusicPlayer() {
               style={styles.SongOptionForward}
               source={require('../../assets/forward.png')}></ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setLoop(!loop)}>
+          <TouchableOpacity onPress={() => loop.current = !loop.current}>
             <ImageBackground
               style={styles.SongOptionRepeat}
               source={
-                loop
+                loop.current
                   ? require('../../assets/repeatfill.png')
                   : require('../../assets/repeat.png')
               }></ImageBackground>

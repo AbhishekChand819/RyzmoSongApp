@@ -36,8 +36,8 @@ export const styles = StyleSheet.create({
   LibraryContainer: {
     display: 'flex',
     flexDirection: 'column',
-    marginLeft:35,
-    marginRight:35
+    marginLeft:23,
+    marginRight:30
   },
   nolikedSongs:{
     fontFamily: "Montserrat-SemiBold",

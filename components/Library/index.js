@@ -26,7 +26,7 @@ function Library() {
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
       <ScrollView style={styles.wrapper}>
-        <Text style={styles.heading}>Library</Text>
+        <Text style={styles.heading}>Favourites</Text>
         {/* <View style={styles.pillsContainer}>
           <View style={styles.pillBoxActive}>
             <Text style={styles.pillText}>Playlist</Text>
@@ -79,7 +79,7 @@ function Library() {
             type="library"></TrackLabel> */}
         </View>
       </ScrollView>
-      <AppNavigator activeRoute='Library'></AppNavigator>
+      <AppNavigator activeRoute='Favourites'></AppNavigator>
     </React.Fragment>
   );
 }

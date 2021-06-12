@@ -23,9 +23,9 @@ function Navbar({ activeRoute }) {
       barColor: 'rgba(0,0,0,0.5)',
     },
     {
-      key: 'Library',
+      key: 'Favourites',
       icon: require('../../assets/Library.png'),
-      label: 'Saved',
+      label: 'Favourites',
       barColor: 'rgba(0,0,0,0.5)',
     },
     {

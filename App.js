@@ -46,7 +46,7 @@ export default function App() {
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Playlist" component={Playlist} />
         <Stack.Screen name="Music Player" component={MusicPlayer} />
-        <Stack.Screen name="Library" component={Library} />
+        <Stack.Screen name="Favourites" component={Library} />
         <Stack.Screen name="About" component={About} />
       </Stack.Navigator>
     </NavigationContainer>

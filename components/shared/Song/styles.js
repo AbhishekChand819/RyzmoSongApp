@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 13,
     color: '#C4C4C4',
+    width:220,
   },
   songOption:{
     display:"flex",

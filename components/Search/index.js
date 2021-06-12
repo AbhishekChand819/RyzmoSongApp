@@ -120,6 +120,7 @@ function Search({navigation}) {
                 image={song.artist_image}
                 artists={song.track_artist}
                 url={song.track_preview}
+                playlistName={song.playlist_name}
               />
             )) : <View>
               <Text style={styles.noResultsFound}>No Results Found ...</Text>

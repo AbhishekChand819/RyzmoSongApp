@@ -35,6 +35,7 @@ function Playlist() {
     } else {
       let response = await fetch(`${url}${route.params.endpoint}`);
       response = await response.json(); 
+      response = response.filter(song => song.track_preview.length > 1);
       setSongs(response);
     }
   }, []);
