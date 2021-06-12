@@ -41,7 +41,8 @@ export const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 20,
     color: '#FFFFFF',
-    textTransform:"capitalize"
+    textTransform:"capitalize",
+    width:250
   },
   QueueClose:{
     width:12,

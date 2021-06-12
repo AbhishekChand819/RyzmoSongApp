@@ -73,6 +73,7 @@ function MusicPlayer() {
     const queue = await TrackPlayer.getQueue();
     const shuffledQueue = shuffleArray(queue);
     setSongQueue(shuffledQueue);
+    console.log("............", shuffledQueue)
     TrackPlayer.destroy();
     await TrackPlayer.setupPlayer({}).then(async () => {});
     await TrackPlayer.add(shuffledQueue);
@@ -269,8 +270,8 @@ function MusicPlayer() {
                 </View>
               </View>
                 ))
-              : songQueue.map(songQ => {
-                  return (
+              : songQueue.map(songQ => 
+                songQ.track_id ?(
                     <Song
                       isPlaying={currentSongId.current === songQ.track_id}
                       id={songQ.track_id}
@@ -281,8 +282,18 @@ function MusicPlayer() {
                       url={songQ.track_preview}
                       route="queue"
                     />
-                  );
-                })}
+                  ) : (  
+                    <Song
+                    isPlaying={currentSongId.current === songQ.id}
+                    id={songQ.id}
+                    key={songQ.id}
+                    title={songQ.title}
+                    image={songQ.artist_image}
+                    artists={songQ.artist}
+                    url={songQ.url}
+                    route="queue"
+                  />)
+                )}
           </ScrollView>
         </Modal>
         <Text style={styles.SongTitle} numberOfLines={1} ellipsizeMode="tail">

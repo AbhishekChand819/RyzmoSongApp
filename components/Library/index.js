@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text, StatusBar, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, StatusBar, ScrollView,ImageBackground, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import AppNavigator from '../Navbar';
 import TrackLabel from '../shared/TrackLabel';
@@ -26,7 +26,34 @@ function Library() {
     <React.Fragment>
       <StatusBar backgroundColor="#1B0536" />
       <ScrollView style={styles.wrapper}>
-        <Text style={styles.heading}>Favourites</Text>
+        <View style={styles.headerContainer}>
+            <View style={styles.playlistDetail}>
+              <Text style={styles.labelText}>Favourites</Text>
+              <View style={styles.subTextContainer}>
+                <Text style={styles.labelSubText}>{songs.length} Songs &bull; </Text>
+                <Text style={styles.labelSubText}>{songs.length/2} Minutes</Text>
+              </View>
+            </View>
+          <TouchableOpacity
+                style={{marginTop: 5, marginLeft: 'auto'}}
+                onPress={() => {
+                  if (songs.length > 0) {
+                    navigation.push('Music Player', {
+                      id: songs[0].track_id,
+                      title: songs[0].track_name,
+                      artists: songs[0].track_artist,
+                      image: songs[0].artist_image,
+                      url: songs[0].track_preview,
+                      playlist: {name: "Favourites", songs},
+                    });
+                  }
+                }}>
+                <ImageBackground
+                  style={styles.imgPlayBtn}
+                  source={require('../../assets/playbtn.png')}></ImageBackground>
+            </TouchableOpacity>
+        </View>
+
         {/* <View style={styles.pillsContainer}>
           <View style={styles.pillBoxActive}>
             <Text style={styles.pillText}>Playlist</Text>

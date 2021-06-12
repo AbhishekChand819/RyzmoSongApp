@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {styles} from './styles';
+import LinearGradient from 'react-native-linear-gradient';
 import AppNavigator from '../Navbar';
 import search from '../../assets/search1.png';
 import GenreLabel from '../shared/SearchGenreLabel';
@@ -79,7 +80,7 @@ function Search({navigation}) {
                   flexDirection: 'row',
                   marginBottom: 10,
                 }}>
-                <View style={{width: 50, height: 45, backgroundColor: "#6425B1", opacity: 0.5}}></View>
+                <View style={{width: 50, height: 45, backgroundColor: "#6425B1", opacity: 0.8}}></View>
                 <View
                   style={{
                     display: 'flex',

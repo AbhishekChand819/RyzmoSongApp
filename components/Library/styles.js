@@ -14,6 +14,36 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 20,
   },
+  headerContainer:{
+    display:"flex",
+    flexDirection:'row',
+    marginRight: 20,
+    marginTop:5
+  },
+  labelText: {
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 24,
+    lineHeight: 29,
+    color: '#FFFFFF',
+    paddingTop: 10,
+    // backgroundColor:"pink"
+  },
+  playlistDetail:{
+    marginLeft:23
+  },
+  subTextContainer:{
+    display:"flex",
+    flexDirection:'row',
+    marginBottom:20,
+  },
+  labelSubText:{
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 16,
+    lineHeight: 29,
+    color: '#C4C4C4',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
   SearchIcon:{
     position: "absolute",
     width: 23,
@@ -32,6 +62,10 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft:55,
     color:"#E9D5E1"
+  },
+  imgPlayBtn:{
+    width: 59,
+    height: 59,
   },
   LibraryContainer: {
     display: 'flex',
